@@ -9,7 +9,7 @@ def _():
     import marimo as mo
     import pandas as pd
     import altair as alt
-    return alt, mo, pd
+    return mo, pd
 
 
 @app.cell
@@ -17,21 +17,6 @@ def _(pd):
     df = pd.read_csv("parkinsons_updrs.csv")
     df.head()
     return (df,)
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-    ### Feature Understanding
-    ---
-
-    - `subject#`: **The nth person who is having the biomedical test having *Parkinson's disease*.**
-    - `test_time`: **The time duration (in days) since the subject was enrolled.**
-    -
-    """
-    )
-    return
 
 
 @app.cell
@@ -65,45 +50,53 @@ def _(vif_df):
 
 
 @app.cell
-def _(X, alt, df, mo):
-    feature = mo.ui.dropdown(label="select the feature: ",options=X.columns.tolist())
+def _(x_df):
+    features_lst = x_df.columns.tolist()
 
-    def generate_kde(feature:str):
-        _chart = alt.Chart(df).mark_bar().encode(
-            alt.X(feature, bin=alt.Bin(maxbins=25), title=feature),
-            y='count()',
-            tooltip=['count()']
-        ).properties(
-            title=f'Distribution of {feature}'
-        )
-        return _chart
-
-    feature
-    return feature, generate_kde
+    shimmer_features = [f for f in features_lst if f.startswith("Shimmer")]
+    jitter_features = [j for j in features_lst if j.startswith("Jitter")]
+    return (shimmer_features,)
 
 
 @app.cell
-def _(feature, generate_kde):
-    generate_kde(feature.value)
+def _(X, shimmer_features):
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.decomposition import PCA
+
+    # Create a pipeline
+    pipeline = Pipeline([
+        ('scaler', StandardScaler()),  # Standardize the data
+        ('pca', PCA(n_components=2))               # Apply PCA
+    ])
+
+    pca_shimmer = pipeline.fit_transform(X[shimmer_features].to_numpy())
+
+    # The pipeline can now be used like any other scikit-learn estimator
+    # For example, to fit the pipeline to your data:
+    # pipeline.fit(X_train)
+
+    # And to transform your data:
+    # X_transformed = pipeline.transform(X_train)
+
+    # Or to fit and transform in one step:
+    # X_transformed = pipeline.fit_transform(X_train)
+    return (pipeline,)
+
+
+@app.cell
+def _(pipeline):
+    pipeline.pca
     return
 
 
 @app.cell
 def _():
-    from sklearn.decomposition import PCA
-
-    pca = PCA(n_components=1)
-
     return
 
 
 @app.cell
-def _(x_df):
-    features_lst = x_df.columns.tolist()
-    print(features_lst)
-    for f in features_lst:
-        if f.startswith("Shimmer"):
-            print(f)
+def _():
     return
 
 
