@@ -46,14 +46,108 @@ def _(mo):
 
 
 @app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ##### For a vector space having basis \( \{ \vec{v}_1, \ldots, \vec{v}_m \} \) of a subspace \( S \subset \mathbb{R}^n \), the **Gram–Schmidt** process constructs an _**orthonormal basis**_ \( \{ \vec{w}_1, \vec{w}_2, \ldots, \vec{w}_m \} \), such that:
+
+    \[
+    \operatorname{gram\_schmidt} \left( \left\{ \vec{v}_1, \vec{v}_2, \ldots, \vec{v}_m \right\} \right)
+    \longrightarrow \left\{ \vec{w}_1, \vec{w}_2, \ldots, \vec{w}_m \right\}
+    \]
+
+    ##### where each \( \vec{w}_i \) is orthonormal, and constructed via the following steps:
+
+    Set:
+
+    \[
+    \vec{u}_1 = \vec{v}_1, \quad \vec{w}_1 = \frac{\vec{u}_1}{\|\vec{u}_1\|}
+    \]
+
+    For each \( i = 2, 3, \ldots, m \), compute:
+
+    \[
+    \vec{u}_i = \vec{v}_i - \sum_{j=1}^{i-1} \operatorname{proj}_{\vec{w}_j}(\vec{v}_i)
+    = \vec{v}_i - \sum_{j=1}^{i-1} \left( \frac{\vec{w}_j^\top \vec{v}_i}{\vec{w}_j^\top \vec{w}_j} \right) \vec{w}_j
+    \]
+
+    in other words,
+
+    \[
+    \begin{aligned}
+    \vec{u}_1 &= \vec{v}_1, &
+    \vec{w}_1 &= \frac{\vec{u}_1}{\|\vec{u}_1\|}, \\[8pt]
+    \vec{u}_2 &= \vec{v}_2 - \operatorname{proj}_{\vec{u}_1}(\vec{v}_2)
+              = \vec{v}_2 - \frac{\vec{u}_1^{\top}\vec{v}_2}{\vec{u}_1^{\top}\vec{u}_1} \vec{u}_1, &
+    \vec{w}_2 &= \frac{\vec{u}_2}{\|\vec{u}_2\|}, \\[8pt]
+    \vec{u}_3 &= \vec{v}_3 - \operatorname{proj}_{\vec{u}_1}(\vec{v}_3) - \operatorname{proj}_{\vec{u}_2}(\vec{v}_3), &
+    \vec{w}_3 &= \frac{\vec{u}_3}{\|\vec{u}_3\|}, \\[6pt]
+    &\;\vdots & &\;\vdots \\
+    \vec{u}_k &= \vec{v}_k - \sum_{j=1}^{k-1} \operatorname{proj}_{\vec{u}_j}(\vec{v}_k), &
+    \vec{w}_k &= \frac{\vec{u}_k}{\|\vec{u}_k\|}.
+    \end{aligned}
+    \]
+
+    Then normalize:
+
+    \[
+    \vec{w}_i = \frac{\vec{u}_i}{\|\vec{u}_i\|}
+    \]
+
+    ##### These vectors \( \{ \vec{w}_1, \ldots, \vec{w}_m \} \) satisfy the orthonormality condition:
+
+    \[
+    \vec{w}_i^\top.\vec{w}_j =
+    \begin{cases}
+    1 & \text{if } i = j, \\
+    0 & \text{if } i \neq j
+    \end{cases}
+    \]
+
+    ##### and such orthonormal vectors can be assembled into the columns which build an **Orthonormal Matrix \( Q \in \mathbb{R}^{n \times m} \),** such that:
+
+    \[
+    Q^T. Q = I
+    \]
+
+    ##### In practical numerical implementations (due to rounding errors), we often get:
+
+    \[
+    Q^T. Q \approx I
+    \]
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    side_note_for_norm = mo.md(r"""
+    💡 **For you info..** 
+
+    In the Gram–Schmidt process, the norm \( \| \cdot \| \) used is the **Euclidean norm** (also known as the **\(\ell^2 \)** norm).
+
+    \[
+    \| \vec{v} \| = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2} = \left( \sum_{i=1}^n v_i^2 \right)^{1/2}
+    \]
+
+
+    This measures the **Euclidean distance** of a vector \( \vec{v} \in \mathbb{R}^n \) from the origin.
+    """)
+    mo.callout(side_note_for_norm,kind="info")
+    return
+
+
+@app.cell
 def _(np):
     # vector space having linear independent vectors
 
-    # A = np.array([[1,0,0],[2,0,3],[4,5,6]]).T
+    A = np.array([[1,0,0],[2,0,3],[4,5,6]]).T
     # A = np.array([[1, 1, 0], [-1, 2, 1], [0, 1, 1]]).T
-    A = np.array([[1, 1, 0],
-                  [1, 0, 1],
-                  [1, 1, 1]], dtype=float).T
+    # A = np.array([[1, 1, 0],
+    #               [1, 0, 1],
+    #               [1, 1, 1]], dtype=float).T
+    A
     return (A,)
 
 
@@ -65,7 +159,7 @@ def _(A, np):
 
 
 @app.cell
-def _(A, np):
+def _(A, mo, np):
         # the gram-schmidt process iteration
 
     Q = np.copy(A).astype("float64")
@@ -91,7 +185,7 @@ def _(A, np):
             R[col_index,col_index] = norm
 
 
-
+    mo.show_code()
     return Q, R
 
 
