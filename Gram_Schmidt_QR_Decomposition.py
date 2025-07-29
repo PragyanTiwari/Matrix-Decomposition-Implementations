@@ -45,7 +45,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
@@ -125,36 +125,108 @@ def _(mo):
     side_note_for_norm = mo.md(r"""
     💡 **For you info..** 
 
-    In the Gram–Schmidt process, the norm \( \| \cdot \| \) used is the **Euclidean norm** (also known as the **\(\ell^2 \)** norm).
+    In the Gram–Schmidt process, the norm \( \| \cdot \| \) used here is the **Euclidean norm** (also known as the **\(\ell^2 \)** norm).
 
     \[
     \| \vec{v} \| = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2} = \left( \sum_{i=1}^n v_i^2 \right)^{1/2}
     \]
 
 
-    This measures the **Euclidean distance** of a vector \( \vec{v} \in \mathbb{R}^n \) from the origin.
+    Measuring the **Euclidean distance** of a vector \( \vec{v} \in \mathbb{R}^n \) from the origin.
     """)
     mo.callout(side_note_for_norm,kind="info")
     return
 
 
 @app.cell
-def _(np):
-    # vector space having linear independent vectors
+def _(mo, np):
+    # a vector space A having independent linearity
 
-    A = np.array([[1,0,0],[2,0,3],[4,5,6]]).T
-    # A = np.array([[1, 1, 0], [-1, 2, 1], [0, 1, 1]]).T
-    # A = np.array([[1, 1, 0],
-    #               [1, 0, 1],
-    #               [1, 1, 1]], dtype=float).T
-    A
+    A = np.array([[1,0,0], [2,0,3], [4,5,6]]).T
+    mo.show_code(print(A))
     return (A,)
 
 
 @app.cell
-def _(A, np):
-    QT,RT = np.linalg.qr(A)
-    RT
+def _(A):
+    print(A)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo, np):
+    # defining the gram-schmidt process
+
+    def gs_Orthogonalization(X:np.ndarray)->np.ndarray:
+
+        """
+        original -> orthogonal -> orthonormal
+        args:
+            A set of linearly independent vectors stored in columns in the array X.
+        returns:
+            Returns matrix Q of the shape of X, having orthonormal vectors for the given vectors.
+        """
+        Q = np.copy(X).astype("float64")
+        n_vecs = Q.shape[1]
+
+        # defining a function to compute the L2-norm
+        length = lambda x: np.linalg.norm(x)
+
+        # iteration with each vector in the matrix X
+        for nth_vec in range(n_vecs):
+
+            # iteratively removing each preceding projection from nth vector
+            for k_proj in range(nth_vec):
+
+                # the dot product would be the scaler coefficient 
+                scaler = Q[:,nth_vec] @ Q[:,k_proj]
+                projection = scaler * Q[:,k_proj]
+                Q[:,nth_vec] -= projection                 # removing the Kth projection
+
+            norm = length(Q[:,nth_vec])
+
+            # handling the case if the loop encounters linearly dependent vectors. 
+            # Since, they come already under the span of vector space, hence their value will be 0.
+            if np.isclose(norm,0, rtol=1e-15, atol=1e-14, equal_nan=False):
+                Q[:,nth_vec] = 0
+            else:
+                # making orthogonal vectors -> orthonormal
+                Q[:,nth_vec] = Q[:,nth_vec] / norm
+
+        return Q
+
+    mo.show_code()
+    return (gs_Orthogonalization,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    ###### Now, we'll define a func. `is_orthonormal` to check the orthonormality of a Matrix satisfying the following fundamental step,
+    \[
+    Q^T. Q = I
+    \]
+    """
+    )
+    return
+
+
+@app.cell
+def _(A, gs_Orthogonalization, mo, np):
+
+    def is_Orthonormal(Q: np.ndarray)->bool:
+        """
+        Checks if the columns of Q are orthonormal.
+        For Q with shape (m, n), this checks if Q.T @ Q == I_n
+        """
+        Q_TQ = Q.T @ Q
+        I = np.eye(Q.shape[1], dtype=Q.dtype)
+        return np.allclose(Q_TQ, I)
+
+    Q_A = gs_Orthogonalization(A)
+    mo.show_code(is_Orthonormal(Q_A),position='above')
+
     return
 
 
@@ -187,6 +259,17 @@ def _(A, mo, np):
 
     mo.show_code()
     return Q, R
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
+    # def gs_orthogonalization()
+    return
 
 
 @app.cell(hide_code=True)
@@ -240,6 +323,17 @@ def _(A):
 @app.cell
 def _(np):
     np.eye(3)
+    return
+
+
+@app.cell
+def _(A, mo):
+    import sys
+    with mo.redirect_stderr():
+        # These messages will show up in the cell's output area
+        sys.stderr.write(A)
+        sys.stderr.write("World!")
+        print("HELLO")
     return
 
 
