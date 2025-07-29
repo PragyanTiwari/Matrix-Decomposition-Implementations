@@ -27,6 +27,9 @@ def _(mo):
     #### **_Talking about Orthogonality_**
 
     ##### From a geometric perspective, an orthogonal matrix represents a linear transformation that preserves the length of vectors and the angles between them. Such transformations include rotations, reflections, or combinations of these operations in n-dimensional space. **This means that when we multiply a vector by an orthogonal matrix, only its orientation changes — not its magnitude.**
+
+
+    ##### In _**Gram-Schmidt Orthogonalization**_, we take a set of linearly independent vectors and systematically construct an orthonormal basis from them. The process removes projections of each vector onto the ones before it, ensuring orthogonality, and then normalizes the result to unit length.
     """
     )
     return
@@ -139,6 +142,23 @@ def _(mo):
 
 
 @app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ## **Here's the Scratch Implementation ✍️**
+    ---
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""defining a vector space A,""")
+    return
+
+
+@app.cell
 def _(mo, np):
     # a vector space A having independent linearity
 
@@ -150,6 +170,12 @@ def _(mo, np):
 @app.cell
 def _(A):
     print(A)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""###### `gs_Orthogonalization` func. which uses the Gram-Schmidt Process,""")
     return
 
 
@@ -225,8 +251,207 @@ def _(A, gs_Orthogonalization, mo, np):
         return np.allclose(Q_TQ, I)
 
     Q_A = gs_Orthogonalization(A)
-    mo.show_code(is_Orthonormal(Q_A),position='above')
 
+    is_Orthonormal(Q_A)
+
+    mo.show_code()
+
+    return Q_A, is_Orthonormal
+
+
+@app.cell(hide_code=True)
+def _(Q_A, is_Orthonormal, mo):
+    mo.plain_text(is_Orthonormal(Q_A))
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""##### **Therefore,**""")
+    return
+
+
+@app.cell
+def _(A, Q, mo):
+
+    v1_stack = mo.vstack([
+        mo.md("#### **Original Vectors**"),
+        mo.plain_text(A)
+    ], align="center")
+
+    v2_stack = mo.vstack([
+        mo.md("#### **Orthonormal Vectors**"),
+        mo.plain_text(Q)
+    ],align="center")
+
+    mo.hstack([v1_stack,mo.md("### turns into ➡️"), v2_stack],
+             align="center",gap=0)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.callout(mo.md("##### 🎯 Here, we got the success, `Q_A` storing the orthonormal vectors satisfies the eq."),kind="success").style({
+        "font-size": "0.85rem",   # smaller text
+        "padding": "0.2rem",      # less inner spacing
+        "margin": "0.2rem 0",     # less space around
+        "border-radius": "100px"    # optional: slightly tighter corners
+    }).center()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(""" """)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ###### **Now, let's have a look at QR Decompostion using Gram-Schmidt** 
+    ## **QR Decomposition via the Gram–Schmidt Process 📐**
+    ---
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    The vectors \( \vec{w}_1, \vec{w}_2, \ldots, \vec{w}_k \) form the columns of an orthonormal matrix \( Q \in \mathbb{R}^{n \times k} \), such that:
+
+
+    \[
+    A = QR
+    \]
+
+    where:
+    - \( Q = [\vec{w}_1 \ \vec{w}_2 \ \cdots \ \vec{w}_k] \) is an orthonormal matrix, and
+    - \( R \in \mathbb{R}^{k \times k} \) is an upper triangular matrix defined by:
+
+    \[
+    R_{ij} =
+    \begin{cases}
+    \vec{w}_i^\top \vec{v}_j & \text{if } i \leq j, \\
+    0 & \text{if } i > j
+    \end{cases}
+    \]
+
+    So the full decomposition is:
+
+    \[
+    A = 
+    \begin{bmatrix}
+    | & | &        & | \\
+    \vec{v}_1 & \vec{v}_2 & \cdots & \vec{v}_k \\
+    | & | &        & |
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    | & | &        & | \\
+    \vec{w}_1 & \vec{w}_2 & \cdots & \vec{w}_k \\
+    | & | &        & |
+    \end{bmatrix}
+    \begin{bmatrix}
+    \vec{w}_1^\top \vec{v}_1 & \vec{w}_1^\top \vec{v}_2 & \cdots & \vec{w}_1^\top \vec{v}_k \\
+    0 & \vec{w}_2^\top \vec{v}_2 & \cdots & \vec{w}_2^\top \vec{v}_k \\
+    \vdots & \ddots & \ddots & \vdots \\
+    0 & \cdots & 0 & \vec{w}_k^\top \vec{v}_k
+    \end{bmatrix}
+    \]
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    We express the matrix \( A \in \mathbb{R}^{n \times k} \) as the product:
+
+    \[
+    A = QR
+    \]
+
+    where:
+    - \( Q \) is an \( n \times k \) matrix with **orthonormal columns** (i.e., \( Q^\top Q = I \)),
+    - \( R \) is a \( k \times k \) **upper triangular matrix**.
+
+    Each entry of \( R \) is defined using the inner product between the orthonormal vectors \( \vec{w}_i \) (columns of \( Q \)) and the original basis vectors \( \vec{v}_j \) (columns of \( A \)):
+
+    \[
+    R_{ij} = \vec{w}_i^\top \vec{v}_j
+    \quad \text{for } i \leq j,\quad
+    R_{ij} = 0 \quad \text{for } i > j
+    \]
+
+    Thus, the QR decomposition reconstructs \( A \) using the orthonormal basis \( Q \) and the projection coefficients stored in \( R \).
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    We compute the **QR decomposition** of a matrix \( A \in \mathbb{R}^{n \times k} \) by producing:
+
+    \[
+    A = QR
+    \]
+
+    where:
+    - \( Q \in \mathbb{R}^{n \times k} \) has **orthonormal columns**, and
+    - \( R \in \mathbb{R}^{k \times k} \) is an **upper triangular matrix**.
+
+    The matrix \( Q \) is built by orthonormalizing the columns of \( A \), and \( R \) stores the projection scalars and norms used in the process:
+
+    \[
+    R_{ij} =
+    \begin{cases}
+    \vec{q}_i^\top \vec{a}_j & \text{for } i \leq j, \\
+    0 & \text{for } i > j
+    \end{cases}
+    \quad \text{where } \vec{a}_j \text{ is the } j\text{th column of } A.
+    \]
+
+    At each step \( j \), we compute:
+
+    1. Subtract projections onto all previously computed orthonormal vectors:
+
+
+    \[
+    \vec{q}_j^{(0)} = \vec{a}_j - \sum_{i=0}^{j-1} (\vec{q}_i^\top \vec{a}_j) \vec{q}_i
+    \]
+
+    3. Normalize to obtain the orthonormal vector:
+
+    \[
+    \vec{q}_j = \frac{\vec{q}_j^{(0)}}{\|\vec{q}_j^{(0)}\|}, \quad R_{jj} = \|\vec{q}_j^{(0)}\|
+    \]
+
+    If \( \|\vec{q}_j^{(0)}\| \approx 0 \), we set \( \vec{q}_j = \vec{0} \) (numerical tolerance).
+
+    The columns of \( Q \) are \( \vec{q}_0, \vec{q}_1, \ldots, \vec{q}_{k-1} \), and \( R \) captures the coefficients used to reconstruct \( A \) as:
+
+
+
+    \[
+    A = QR
+    \]
+    """
+    )
+    return
+
+
+@app.cell
+def _():
     return
 
 
@@ -262,7 +487,63 @@ def _(A, mo, np):
 
 
 @app.cell
-def _():
+def _(mo):
+    mo.md(
+        r"""
+    We compute the **QR decomposition** of a matrix \( A \in \mathbb{R}^{n \times k} \) as:
+
+    \[
+    A = QR
+    \]
+
+    - \( Q \in \mathbb{R}^{n \times k} \) contains **orthonormal columns** derived from \( A \),
+    - \( R \in \mathbb{R}^{k \times k} \) is an **upper triangular matrix** that stores:
+
+      - The **projection coefficients** used to subtract previous directions (above the diagonal), and  
+      - The **norms** used to normalize each orthogonalized vector (on the diagonal).
+
+    Each column of \( A \) is processed by removing its projections onto all previously computed orthonormal vectors and then normalized to form the columns of \( Q \). These coefficients naturally fill the entries of \( R \), making the decomposition exact:
+
+    \[
+    A = QR
+    \]
+
+    We compute the **QR decomposition** of a matrix \( A \in \mathbb{R}^{n \times k} \) as:
+
+    \[
+    A = QR
+    \]
+
+    Here:
+    - \( Q \) contains **orthonormal columns** \( \vec{w}_1, \ldots, \vec{w}_k \),
+    - \( R \) is an upper triangular matrix that:
+      - Stores the **projection coefficients** used to subtract previously computed directions (above the diagonal),
+      - And holds the **norms** used to normalize (on the diagonal).
+
+    So the full decomposition is:
+
+    \[
+    A = 
+    \begin{bmatrix}
+    | & | &        & | \\
+    \vec{v}_1 & \vec{v}_2 & \cdots & \vec{v}_k \\
+    | & | &        & |
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    | & | &        & | \\
+    \vec{w}_1 & \vec{w}_2 & \cdots & \vec{w}_k \\
+    | & | &        & |
+    \end{bmatrix}
+    \begin{bmatrix}
+    r_{11} & r_{12} & \cdots & r_{1k} \\
+    0 & r_{22} & \cdots & r_{2k} \\
+    \vdots & \ddots & \ddots & \vdots \\
+    0 & \cdots & 0 & r_{kk}
+    \end{bmatrix}
+    \]
+    """
+    )
     return
 
 
