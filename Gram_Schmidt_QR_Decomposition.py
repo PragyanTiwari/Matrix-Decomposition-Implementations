@@ -27,8 +27,7 @@ def _(mo):
     #### **_Talking about Orthogonality_**
 
     ##### From a geometric perspective, an orthogonal matrix represents a linear transformation that preserves the length of vectors and the angles between them. Such transformations include rotations, reflections, or combinations of these operations in n-dimensional space. **This means that when we multiply a vector by an orthogonal matrix, only its orientation changes — not its magnitude.**
-
-
+    <br>
     ##### In _**Gram-Schmidt Orthogonalization**_, we take a set of linearly independent vectors and systematically construct an orthonormal basis from them. The process removes projections of each vector onto the ones before it, ensuring orthogonality, and then normalizes the result to unit length.
     """
     )
@@ -45,6 +44,12 @@ def _(mo):
     """)
 
     mo.accordion({"Don't know what orthogonality is ???":statement})
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Mathematical Overview""")
     return
 
 
@@ -322,37 +327,23 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    We compute the **QR decomposition** of a matrix \( A \in \mathbb{R}^{n \times k} \) as:
+    ##### The matrix \( A \in \mathbb{R}^{n \times k} \) can be decomposed and be represented in other form, i.e.:
 
     \[
     A = QR
     \]
 
-    - \( Q \in \mathbb{R}^{n \times k} \) contains **orthonormal columns** derived from \( A \),
-    - \( R \in \mathbb{R}^{k \times k} \) is an **upper triangular matrix** that stores:
+    _where,_
 
-      - The **projection coefficients** used to subtract previous directions (above the diagonal), and  
-      - The **norms** used to normalize each orthogonalized vector (on the diagonal).
+    - ##### \( Q \in \mathbb{R}^{n \times k} \) contains **orthonormal columns** derived from \( A \),
+    - ##### \( R \in \mathbb{R}^{k \times k} \) is an **upper triangular matrix** that stores:
 
-    Each column of \( A \) is processed by removing its projections onto all previously computed orthonormal vectors and then normalized to form the columns of \( Q \). These coefficients naturally fill the entries of \( R \), making the decomposition exact:
+        1. The **projection coefficients** used to subtract previous directions (above the diagonal), and
+        2. The **norms** used to normalize each orthogonalized vector (on the diagonal).
 
-    \[
-    A = QR
-    \]
+    Each vector of \( A \) is processed by removing its projections onto all previously computed orthonormal vectors and then normalized to form the columns of \( Q \). These coefficients naturally fill the entries of \( R \), making it an upper triangular matrix.
 
-    We compute the **QR decomposition** of a matrix \( A \in \mathbb{R}^{n \times k} \) as:
-
-    \[
-    A = QR
-    \]
-
-    Here:
-    - \( Q \) contains **orthonormal columns** \( \vec{w}_1, \ldots, \vec{w}_k \),
-    - \( R \) is an upper triangular matrix that:
-      - Stores the **projection coefficients** used to subtract previously computed directions (above the diagonal),
-      - And holds the **norms** used to normalize (on the diagonal).
-
-    So the full decomposition is:
+    ##### **So the full decomposition is:**
 
     \[
     A = 
@@ -380,93 +371,54 @@ def _(mo):
 
 
 @app.cell
-def _(A, mo, np):
-    # the gram-schmidt process iteration
+def _(mo, np):
 
-    Q = np.copy(A).astype("float64")
-    R = np.zeros(A.shape).astype("float64")
-    length = lambda x: np.linalg.norm(x)
+    def gs_QR_Decomposition(X:np.ndarray):
+        """
+        An updated version of the above one, performing QR Decomposition using the Gram-Schmidt orthogonalization process
+        Args:
+            A set of linearly independent vectors stored in columns in the array X.
+        Returns:
+            Q: matrix carrying orthonormal vectors
+            R: matrix having projection coefficients of orthonormal vectors
+        """
+        Q = np.copy(X).astype("float64")
+        R = np.zeros(X.shape).astype("float64")
+        n_vecs = X.shape[1]
+        length = lambda x: np.linalg.norm(x)
 
+        for nth_vec in range(n_vecs):
 
-    for col_index in range(A.shape[1]):
+            for k_proj in range(nth_vec):
 
-        for proj_index in range(col_index): 
+                # the dot product would be the scaler coefficient 
+                scaler = Q[:,nth_vec] @ Q[:,k_proj]
+                projection = scaler * Q[:,k_proj]
+            
+                Q[:,nth_vec] -= projection                 # removing the Kth projection
+                R[k_proj,nth_vec] = scaler                 # putting the scaler coeff. in R
 
-            scaler = Q[:,col_index] @ Q[:,proj_index]
-            projection = scaler * Q[:,proj_index]
-            Q[:,col_index] -= projection
-            R[proj_index,col_index] = scaler
+            norm = length(Q[:,nth_vec])
 
-        norm = length(Q[:,col_index])
+            # handling the case if the loop encounters linearly dependent vectors. 
+            # Since, they come already under the span of vector space, hence their value will be 0.
+            if np.isclose(norm,0, rtol=1e-15, atol=1e-14, equal_nan=False):
+                Q[:,nth_vec] = 0
+            else:
+                # making orthogonal vectors -> orthonormal
+                Q[:,nth_vec] = Q[:,nth_vec] / norm
+                # the norm will be the scaler coeff of the first projection, (can be proved through system equations)
+                R[nth_vec,nth_vec] = norm
 
-        if np.isclose(norm,0, rtol=1e-15, atol=1e-14, equal_nan=False):
-            Q[:,col_index] = 0
-        else:
-            Q[:,col_index] = Q[:,col_index] / norm
-            R[col_index,col_index] = norm
-
+        return (Q,R)
 
     mo.show_code()
-    return Q, R
-
-
-@app.cell
-def _():
-    # def gs_orthogonalization()
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""The matrix Q:""")
-    return
-
-
-@app.cell
-def _(Q):
-    Q
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""The matrix R:""")
-    return
-
-
-@app.cell
-def _(R):
-    R
-    return
-
-
-@app.cell
-def _(A, Q, R, np):
-    np.allclose(A,Q @ R)
-    return
-
-
-@app.cell
-def _(Q, np):
-    np.allclose(Q.T @ Q, np.eye(3))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""---""")
-    return
-
-
-@app.cell
-def _(A):
-    A[:,0] @ A[:,0].T
-    return
-
-
-@app.cell
-def _(np):
-    np.eye(3)
     return
 
 
