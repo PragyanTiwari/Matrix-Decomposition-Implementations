@@ -277,7 +277,7 @@ def _(mo):
 
 
 @app.cell
-def _(A, Q, mo):
+def _(A, Q_A, mo):
 
     v1_stack = mo.vstack([
         mo.md("#### **Original Vectors**"),
@@ -286,7 +286,7 @@ def _(A, Q, mo):
 
     v2_stack = mo.vstack([
         mo.md("#### **Orthonormal Vectors**"),
-        mo.plain_text(Q)
+        mo.plain_text(Q_A)
     ],align="center")
 
     mo.hstack([v1_stack,mo.md("### turns into ➡️"), v2_stack],
@@ -394,7 +394,7 @@ def _(mo, np):
                 # the dot product would be the scaler coefficient 
                 scaler = Q[:,nth_vec] @ Q[:,k_proj]
                 projection = scaler * Q[:,k_proj]
-            
+
                 Q[:,nth_vec] -= projection                 # removing the Kth projection
                 R[k_proj,nth_vec] = scaler                 # putting the scaler coeff. in R
 
@@ -413,12 +413,56 @@ def _(mo, np):
         return (Q,R)
 
     mo.show_code()
+    return (gs_QR_Decomposition,)
+
+
+@app.cell
+def _(A, gs_QR_Decomposition, mo):
+    QA, RA = gs_QR_Decomposition(A)
+    mo.show_code()
+    return QA, RA
+
+
+@app.cell
+def _(A, QA, RA, mo):
+    _v1_stack = mo.vstack([
+        mo.md("#### **Original Vectors (A)**"),
+        mo.plain_text(A)
+    ], align="center")
+
+    _v2_stack = mo.vstack([
+        mo.md("#### **Q**"),
+        mo.plain_text(QA)
+    ],align="center")
+
+    _v3_stack = mo.vstack([
+        mo.md("#### **R**"),
+        mo.plain_text(RA)
+    ],align="center")
+
+
+    stack = mo.hstack([_v1_stack,mo.md("### QR Decomposition ➡️").center(), _v2_stack, _v3_stack],
+             align="center",gap=0, widths=[0.3,0.5,0.20,0.30])
+
+    mo.show_code(stack,position="above")
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(mo):
-    mo.md(r"""---""")
+    mo.md(
+        r"""
+    <br>
+    Since, the necessary matrices are produced. Let's check whether their dot product i.e. `QA @ RA` found similar to **matrix A**.
+    """
+    )
+    return
+
+
+@app.cell
+def _(A, QA, RA, mo, np):
+    true_similarity = np.allclose(A, QA @ RA)
+    mo.show_code(true_similarity,position="above")
     return
 
 
