@@ -14,7 +14,8 @@ def _():
 @app.cell
 def _(np):
     A = np.array([[1,0,0], [2,0,3], [4,5,6]]).T
-    return
+    A
+    return (A,)
 
 
 @app.cell
@@ -59,6 +60,101 @@ def _(np):
                 R[nth_vec,nth_vec] = norm
 
         return (Q,R)
+    return
+
+
+@app.cell
+def _(A, np):
+    np.inner(A,A)
+    return
+
+
+@app.cell
+def _(A):
+    A @ A
+    return
+
+
+@app.cell
+def _(np):
+    import plotly.graph_objects as go
+
+    # Original vector x
+    x = np.array([3, 2])
+
+    # Unit vector u (must be unit length)
+    u = np.array([1, 1])
+    u = u / np.linalg.norm(u)
+
+    # Compute inner product ⟨x, u⟩
+    dot_product = np.dot(x, u)
+
+    # Compute Householder reflection: x - 2⟨x, u⟩u
+    reflected = x - 2 * dot_product * u
+
+    # Create figure
+    fig = go.Figure()
+
+    # Plot original vector x
+    fig.add_trace(go.Scatter(
+        x=[0, x[0]],
+        y=[0, x[1]],
+        mode='lines+markers+text',
+        name='x',
+        line=dict(color='blue', width=3),
+        text=['', 'x'],
+        textposition='top right'
+    ))
+
+    # Plot unit vector u
+    fig.add_trace(go.Scatter(
+        x=[0, u[0]],
+        y=[0, u[1]],
+        mode='lines+markers+text',
+        name='u (mirror normal)',
+        line=dict(color='green', dash='dot'),
+        text=['', 'u'],
+        textposition='top right'
+    ))
+
+    # Plot reflected vector
+    fig.add_trace(go.Scatter(
+        x=[0, reflected[0]],
+        y=[0, reflected[1]],
+        mode='lines+markers+text',
+        name="Householder reflection H(x)",
+        line=dict(color='red', width=3, dash='dash'),
+        text=['', 'H(x)'],
+        textposition='bottom left'
+    ))
+
+    # Mirror line (orthogonal to u)
+    slope = -u[0]/u[1]  # orthogonal slope
+    x_line = np.linspace(-4, 4, 100)
+    y_line = slope * x_line
+    fig.add_trace(go.Scatter(
+        x=x_line,
+        y=y_line,
+        mode='lines',
+        name='Mirror Line',
+        line=dict(color='gray', dash='dot')
+    ))
+
+    # Layout settings
+    fig.update_layout(
+        title='Householder Reflection of Vector x',
+        xaxis=dict(range=[-4, 4], zeroline=True),
+        yaxis=dict(range=[-4, 4], zeroline=True),
+        width=700,
+        height=700,
+        showlegend=True,
+        plot_bgcolor='white'
+    )
+
+    fig.update_xaxes(showgrid=True, gridcolor='lightgray')
+    fig.update_yaxes(showgrid=True, gridcolor='lightgray')
+
+    fig.show()
     return
 
 
