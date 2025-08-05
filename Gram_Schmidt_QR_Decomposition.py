@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.14.10"
+__generated_with = "0.14.12"
 app = marimo.App(width="medium")
 
 
@@ -8,7 +8,9 @@ app = marimo.App(width="medium")
 def _():
     import marimo as mo
     import numpy as np
-    return mo, np
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import Axes3D
+    return mo, np, plt
 
 
 @app.cell(hide_code=True)
@@ -312,6 +314,70 @@ def _(mo):
 
 
 @app.cell
+def _(A, Q_A, np, plt):
+    # comparison plot
+
+    # Standard basis vectors
+    basis = np.eye(3)
+
+    # Apply transformations
+    _transformed_A = A @ basis
+    _transformed_Q = Q_A @ basis
+
+    # Create figure with adjusted layout
+    fig2 = plt.figure(figsize=(14, 5))
+    fig2.suptitle('Matrix Transformation (A v/s Q)', y=1.05, fontsize=14)
+
+    # Plot for Original Matrix A
+    _ax1 = fig2.add_subplot(121, projection='3d')
+    _ax1.set_title("Original Matrix Transformation (A)", fontsize=12, pad=12)
+    _ax1.set_xlim([0, 10])
+    _ax1.set_ylim([-10, 0])
+    _ax1.set_zlim([0, 10])
+    arrows_A = _ax1.quiver(*np.zeros((3, 3)), *_transformed_A, 
+                        color=['r', 'g', 'b'], 
+                        arrow_length_ratio=0.12,
+                        linewidth=2.5,
+                        label=['A·i (1st column)', 'A·j (2nd column)', 'A·k (3rd column)'])
+    _ax1.legend(handles=[
+        plt.Line2D([0], [0], color='r', lw=2, label='A·i (1st col)'),
+        plt.Line2D([0], [0], color='g', lw=2, label='A·j (2nd col)'), 
+        plt.Line2D([0], [0], color='b', lw=2, label='A·k (3rd col)')
+    ], loc='upper left', fontsize=9)
+    _ax1.set_box_aspect([1,1,1])
+    _ax1.grid(True, alpha=0.3)
+    _ax1.set_xlabel('X', fontsize=9)
+    _ax1.set_ylabel('Y', fontsize=9)
+    _ax1.set_zlabel('Z', fontsize=9)
+
+    # Plot for Orthogonal Matrix Q
+    _ax2 = fig2.add_subplot(122, projection='3d')
+    _ax2.set_title("Orthogonal Component (Q)", fontsize=12, pad=12)
+    _ax2.set_xlim([0, 1.5])
+    _ax2.set_ylim([-1.5, 0])
+    _ax2.set_zlim([0, -1.5])
+    arrows_Q = _ax2.quiver(*np.zeros((3, 3)), *_transformed_Q,
+                        color=['r', 'g', 'b'], 
+                        arrow_length_ratio=0.12,
+                        linewidth=2.5,
+                        label=['Q·i', 'Q·j', 'Q·k'])
+    _ax2.legend(handles=[
+        plt.Line2D([0], [0], color='r', lw=2, label='Q·i (1st col)'),
+        plt.Line2D([0], [0], color='g', lw=2, label='Q·j (2nd col)'), 
+        plt.Line2D([0], [0], color='b', lw=2, label='Q·k (3rd col)')
+    ], loc='upper left', fontsize=9)
+    _ax2.set_box_aspect([1,1,1])
+    _ax2.grid(True, alpha=0.3)
+    _ax2.set_xlabel('X', fontsize=9)
+    _ax2.set_ylabel('Y', fontsize=9)
+    _ax2.set_zlabel('Z', fontsize=9)
+
+    plt.tight_layout()
+    fig2
+    return
+
+
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
@@ -467,7 +533,88 @@ def _(A, QA, RA, mo, np):
 
 
 @app.cell
-def _():
+def _(A, QA, RA, np, plt):
+    # orientation plot
+
+    phi = np.linspace(0, np.pi, 80)
+    theta = np.linspace(0, 2*np.pi, 80)
+    x = np.outer(np.sin(phi), np.cos(theta))
+    y = np.outer(np.sin(phi), np.sin(theta))
+    z = np.outer(np.cos(phi), np.ones_like(theta))
+
+    sphere_points = np.vstack((x.flatten(), y.flatten(), z.flatten()))
+
+    # Apply transformations
+
+    transformed_A = A @ sphere_points
+    transformed_Q = QA @ sphere_points
+    transformed_R = RA @ sphere_points
+
+    # Plot
+    fig = plt.figure(figsize=(10, 3.5))  # Smaller plots
+
+    # A: Full Transformation
+    ax1 = fig.add_subplot(131, projection='3d')
+    ax1.plot_surface(
+        transformed_A[0].reshape(x.shape),
+        transformed_A[1].reshape(y.shape),
+        transformed_A[2].reshape(z.shape),
+        color='red', alpha=0.6
+    )
+    ax1.set_title("A: Original",fontsize=10)
+    ax1.set_box_aspect([1,1,1])
+
+    # Q: Rotation Only
+    ax2 = fig.add_subplot(132, projection='3d')
+    ax2.plot_surface(
+        transformed_Q[0].reshape(x.shape),
+        transformed_Q[1].reshape(y.shape),
+        transformed_Q[2].reshape(z.shape),
+        color='blue', alpha=0.6
+    )
+    ax2.set_title("Q: Rotation Only",fontsize=10)
+    ax2.set_box_aspect([1,1,1])
+
+    # R: Stretch and Skew
+    ax3 = fig.add_subplot(133, projection='3d')
+    ax3.plot_surface(
+        transformed_R[0].reshape(x.shape),
+        transformed_R[1].reshape(y.shape),
+        transformed_R[2].reshape(z.shape),
+        color='green', alpha=0.6
+    )
+    ax3.set_title("R: Stretch/Skew",fontsize=10)
+    ax3.set_box_aspect([1,1,1])
+    # mo.mpl.interactive(fig)
+    return (fig,)
+
+
+@app.cell(hide_code=True)
+def _(fig, mo):
+    orientation_md = mo.md(
+        r"""
+    <br>
+    ### **Here's the breakdown (_The final Orientation_)**
+
+    ##### The original `matrix (A)` gets transformed into decomposed matrices i.e. `Q` & `R`. The orientation of originality changes such that it preserves some of the properties. Here's the detailed explanation...
+    """
+    )
+
+    plot = mo.mpl.interactive(fig)
+
+    sidenote = mo.md(r"""**Note:** _The scale is relative here to the transformation (not absolute), but the equation is consistent._""")
+
+    mo.vstack([orientation_md,plot,sidenote],gap=0.5)
+    return
+
+
+@app.cell
+def _(mo):
+    first = mo.md("###### This description highlights both the geometric intuition and mathematical rigor behind your visualization. Would you like to emphasize any specific aspect (e.g., applications to least-squares problems)?")
+    second = first
+    third = first
+
+    mo.hstack([first,second,third],gap=3)
     return
 
 

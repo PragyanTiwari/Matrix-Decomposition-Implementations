@@ -9,149 +9,152 @@ def _():
     import marimo as mo
     import numpy as np
     import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
+    from mpl_toolkits.mplot3d import proj3d, Axes3D
+    from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+    from matplotlib.patches import FancyArrowPatch
     return np, plt
 
 
 @app.cell
 def _(np, plt):
-    # Example QR decomposition
 
-    A = np.array([[1, 1, 0],
-                  [0, 1, 1],
-                  [1, 0, 1]])
-    Q, R = np.linalg.qr(A)
 
-    # Create a sphere
-    phi = np.linspace(0, np.pi, 50)
-    theta = np.linspace(0, 2*np.pi, 50)
-    x = np.outer(np.sin(phi), np.cos(theta))
-    y = np.outer(np.sin(phi), np.sin(theta))
-    z = np.outer(np.cos(phi), np.ones_like(theta))
 
-    sphere_points = np.vstack((x.flatten(), y.flatten(), z.flatten()))
+    # Define the matrix (transposed to match your input)
+    A = np.array([[1,0,0], [2,0,3], [4,5,6]]).T
 
-    # Transformations
-    transformed_A = A @ sphere_points
-    transformed_Q = Q @ sphere_points
-    transformed_R = R @ sphere_points
+    # QR decomposition
+    Q, _ = np.linalg.qr(A)
 
-    # Plot
-    fig = plt.figure(figsize=(18, 6))
+    # Standard basis vectors
+    basis = np.eye(3)
 
-    # A: Full Transformation
-    ax1 = fig.add_subplot(131, projection='3d')
-    ax1.plot_surface(
-        transformed_A[0].reshape(x.shape),
-        transformed_A[1].reshape(y.shape),
-        transformed_A[2].reshape(z.shape),
-        color='red', alpha=0.6
-    )
-    ax1.set_title("A: Full Transformation (Q*R)")
+    # Apply transformations
+    transformed_A = A @ basis
+    transformed_Q = Q @ basis
+
+    # Create figure with adjusted layout
+    fig = plt.figure(figsize=(14, 5))
+    fig.suptitle('Matrix Transformation (A v/s Q)', y=1.05, fontsize=14)
+
+    # Plot for Original Matrix A
+    ax1 = fig.add_subplot(121, projection='3d')
+    ax1.set_title("Original Matrix Transformation (A)", fontsize=12, pad=12)
+    ax1.set_xlim([0, 10])
+    ax1.set_ylim([-10, 0])
+    ax1.set_zlim([0, 10])
+    arrows_A = ax1.quiver(*np.zeros((3, 3)), *transformed_A, 
+                        color=['r', 'g', 'b'], 
+                        arrow_length_ratio=0.12,
+                        linewidth=2.5,
+                        label=['A·i (1st column)', 'A·j (2nd column)', 'A·k (3rd column)'])
+    ax1.legend(handles=[
+        plt.Line2D([0], [0], color='r', lw=2, label='A·i (1st col)'),
+        plt.Line2D([0], [0], color='g', lw=2, label='A·j (2nd col)'), 
+        plt.Line2D([0], [0], color='b', lw=2, label='A·k (3rd col)')
+    ], loc='upper left', fontsize=9)
     ax1.set_box_aspect([1,1,1])
+    ax1.grid(True, alpha=0.3)
+    ax1.set_xlabel('X', fontsize=9)
+    ax1.set_ylabel('Y', fontsize=9)
+    ax1.set_zlabel('Z', fontsize=9)
 
-    # Q: Rotation Only
-    ax2 = fig.add_subplot(132, projection='3d')
-    ax2.plot_surface(
-        transformed_Q[0].reshape(x.shape),
-        transformed_Q[1].reshape(y.shape),
-        transformed_Q[2].reshape(z.shape),
-        color='blue', alpha=0.6
-    )
-    ax2.set_title("Q: Rotation Only")
+    # Plot for Orthogonal Matrix Q
+    ax2 = fig.add_subplot(122, projection='3d')
+    ax2.set_title("Orthogonal Component (Q)", fontsize=12, pad=12)
+    ax2.set_xlim([0, 1.5])
+    ax2.set_ylim([-1.5, 0])
+    ax2.set_zlim([0, -1.5])
+    arrows_Q = ax2.quiver(*np.zeros((3, 3)), *transformed_Q,
+                        color=['r', 'g', 'b'], 
+                        arrow_length_ratio=0.12,
+                        linewidth=2.5,
+                        label=['Q·i', 'Q·j', 'Q·k'])
+    ax2.legend(handles=[
+        plt.Line2D([0], [0], color='r', lw=2, label='Q·i (1st col)'),
+        plt.Line2D([0], [0], color='g', lw=2, label='Q·j (2nd col)'), 
+        plt.Line2D([0], [0], color='b', lw=2, label='Q·k (3rd col)')
+    ], loc='upper left', fontsize=9)
     ax2.set_box_aspect([1,1,1])
-
-    # R: Stretch and Skew
-    ax3 = fig.add_subplot(133, projection='3d')
-    ax3.plot_surface(
-        transformed_R[0].reshape(x.shape),
-        transformed_R[1].reshape(y.shape),
-        transformed_R[2].reshape(z.shape),
-        color='green', alpha=0.6
-    )
-    ax3.set_title("R: Stretch/Skew")
-    ax3.set_box_aspect([1,1,1])
+    ax2.grid(True, alpha=0.3)
+    ax2.set_xlabel('X', fontsize=9)
+    ax2.set_ylabel('Y', fontsize=9)
+    ax2.set_zlabel('Z', fontsize=9)
 
     plt.tight_layout()
-    plt.show()
-    return (A,)
+    fig
+    return A, transformed_A
+
+
+@app.cell
+def _(transformed_A):
+    transformed_A
+    return
 
 
 @app.cell
 def _():
+    # # Example QR decomposition
 
-
-    # import plotly.graph_objects as go
-
-    # Example 3x3 matrix (replace with your own)
     # A = np.array([[1, 1, 0],
     #               [0, 1, 1],
     #               [1, 0, 1]])
-    # # Orthonormal matrix using QR
     # Q, R = np.linalg.qr(A)
 
-    # def parallelepiped_faces(v1, v2, v3):
-    #     # Compute parallelepiped vertices
-    #     O = np.zeros(3)
-    #     v = [
-    #         O, v1, v2, v1 + v2,
-    #         v3, v1 + v3, v2 + v3, v1 + v2 + v3
-    #     ]
-    #     # Define the 6 parallelepiped faces (each as list of 4 points)
-    #     faces = [
-    #         [v[0], v[1], v[3], v[2]],
-    #         [v[0], v[1], v[5], v[4]],
-    #         [v[0], v[2], v[6], v[4]],
-    #         [v[7], v[5], v[1], v[3]],
-    #         [v[7], v[6], v[2], v[3]],
-    #         [v[7], v[5], v[4], v[6]],
-    #     ]
-    #     return faces
+    # # Create a sphere
+    # phi = np.linspace(0, np.pi, 50)
+    # theta = np.linspace(0, 2*np.pi, 50)
+    # x = np.outer(np.sin(phi), np.cos(theta))
+    # y = np.outer(np.sin(phi), np.sin(theta))
+    # z = np.outer(np.cos(phi), np.ones_like(theta))
 
-    # def plot_parallelepiped(faces, color, name):
-    #     # Create 3D mesh traces for each face
-    #     meshes = []
-    #     for face in faces:
-    #         x, y, z = zip(*face)
-    #         meshes.append(go.Mesh3d(
-    #             x=x, y=y, z=z,
-    #             color=color,
-    #             opacity=0.5,
-    #             name=name,
-    #             showscale=False,
-    #         ))
-    #     return meshes
+    # sphere_points = np.vstack((x.flatten(), y.flatten(), z.flatten()))
 
-    # # Generate faces for both parallelepipeds
-    # faces_A = parallelepiped_faces(A[:,0], A[:,1], A[:,2])
-    # faces_Q = parallelepiped_faces(Q[:,0], Q[:,1], Q[:,2])
+    # # Transformations
+    # transformed_A = A @ sphere_points
+    # transformed_Q = Q @ sphere_points
+    # transformed_R = R @ sphere_points
 
-    # # Plot with plotly
-    # __fig = go.Figure()
+    # # Plot
+    # fig = plt.figure(figsize=(20, 6))
 
-    # # Add both parallelepipeds
-    # for mesh in plot_parallelepiped(faces_A, 'red', 'Original'):
-    #     __fig.add_trace(mesh)
-    # for mesh in plot_parallelepiped(faces_Q, 'blue', 'Orthonormal'):
-    #     __fig.add_trace(mesh)
-
-    # # Layout settings
-    # __fig.update_layout(
-    #     title="Original (Red) vs Orthonormal (Blue) Parallelepiped",
-    #     scene=dict(
-    #         xaxis=dict(range=[-0.5,2]),
-    #         yaxis=dict(range=[-0.5,2]),
-    #         zaxis=dict(range=[-0.5,2]),
-    #         aspectmode='cube'
-    #     ),
-    #     margin=dict(l=0, r=0, t=50, b=0),
-    #     showlegend=False
+    # # A: Full Transformation
+    # ax1 = fig.add_subplot(131, projection='3d')
+    # ax1.plot_surface(
+    #     transformed_A[0].reshape(x.shape),
+    #     transformed_A[1].reshape(y.shape),
+    #     transformed_A[2].reshape(z.shape),
+    #     color='orange', alpha=0.6
     # )
+    # ax1.set_title("A: Full Transformation (Q*R)")
+    # ax1.set_box_aspect([1,1,1])
 
-    # __fig.show()
+    # # Q: Rotation Only
+    # ax2 = fig.add_subplot(132, projection='3d')
+    # ax2.plot_surface(
+    #     transformed_Q[0].reshape(x.shape),
+    #     transformed_Q[1].reshape(y.shape),
+    #     transformed_Q[2].reshape(z.shape),
+    #     color='blue', alpha=0.6
+    # )
+    # ax2.set_title("Q: Rotation Only")
+    # ax2.set_box_aspect([1,1,1])
 
+    # # R: Stretch and Skew
+    # ax3 = fig.add_subplot(133, projection='3d')
+    # ax3.plot_surface(
+    #     transformed_R[0].reshape(x.shape),
+    #     transformed_R[1].reshape(y.shape),
+    #     transformed_R[2].reshape(z.shape),
+    #     color='green', alpha=0.6
+    # )
+    # ax3.set_title("R: Stretch/Skew")
+    # ax3.set_box_aspect([1,1,1])
 
+    # plt.tight_layout()
 
+    # mo.mpl.interactive(fig)
+    # plt.show()
     return
 
 
