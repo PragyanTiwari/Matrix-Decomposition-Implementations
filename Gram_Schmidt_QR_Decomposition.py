@@ -532,7 +532,7 @@ def _(A, QA, RA, mo, np):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(A, QA, RA, np, plt):
     # orientation plot
 
@@ -552,7 +552,7 @@ def _(A, QA, RA, np, plt):
 
     # Plot
     fig = plt.figure(figsize=(10, 3.5))  # Smaller plots
-
+    fig.suptitle("Orientation Figures of the Transformations")
     # A: Full Transformation
     ax1 = fig.add_subplot(131, projection='3d')
     ax1.plot_surface(
@@ -585,12 +585,14 @@ def _(A, QA, RA, np, plt):
     )
     ax3.set_title("R: Stretch/Skew",fontsize=10)
     ax3.set_box_aspect([1,1,1])
-    # mo.mpl.interactive(fig)
+
+
     return (fig,)
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(fig, mo):
+    # description
     orientation_md = mo.md(
         r"""
     <br>
@@ -600,21 +602,55 @@ def _(fig, mo):
     """
     )
 
-    plot = mo.mpl.interactive(fig)
+    # interactive plot
+    plot = mo.mpl.interactive(fig).callout()
 
-    sidenote = mo.md(r"""**Note:** _The scale is relative here to the transformation (not absolute), but the equation is consistent._""")
 
-    mo.vstack([orientation_md,plot,sidenote],gap=0.5)
+    # notice
+    sidenote = mo.md(
+        r"""**Note:** The scale is relative here to the transformation (_not absolute_), but the equation is consistent."""
+    ).style({"color": "red"})
+
+
+    # creating bullet points for interpretation
+    _first = mo.md("""
+    ### **The Original 🔴**
+
+    ##### The ellipsoid shape here illustrating the orientation of **matrix A**, looks stretched and carrying the real vector values.
+    """).center()
+
+    _second = mo.md("""
+    ### **The pure rotation 🔵**
+
+    ##### The pure non-linear transformation done by Gram-Schmidt Orthogonalization, taking the orientation of **unit sphere**, containing Orthonormal Vectors, preserving the magnitude ratio and structure of the original matrix.
+    """).center()
+
+    _third = mo.md("""
+    ### **The Upper Triangular 🟢**
+
+    ##### The stretched/skewed ellipsoid containing the necessary coefficients for the Matrix Q. _It is skewed in general, since the lower triangular values are 0._
+    """).center()
+
+    bullet_pts = mo.hstack([_first,_second,_third],gap=2)
+
+    # stacking
+    mo.vstack([orientation_md, sidenote, plot,bullet_pts]).center()
     return
 
 
 @app.cell
 def _(mo):
-    first = mo.md("###### This description highlights both the geometric intuition and mathematical rigor behind your visualization. Would you like to emphasize any specific aspect (e.g., applications to least-squares problems)?")
-    second = first
-    third = first
+    mo.md(
+        r"""
 
-    mo.hstack([first,second,third],gap=3)
+
+
+
+    ### The Upper Triangular 🟢
+
+    ##### The stretched/skewed ellipsoid containing the necessary coefficients for the Matrix Q. _It is skewed in general, since the lower triangular values are 0._
+    """
+    )
     return
 
 
