@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.14.12"
+__generated_with = "0.14.16"
 app = marimo.App(width="medium")
 
 
@@ -13,10 +13,15 @@ def _():
     return mo, np, plt
 
 
+@app.cell
+def _():
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
-    # Gram-Schmidt Orthogonalization
+    # **Orthonormal Basis Constructions with Gram-Schmidt Algorithm**
     ---
     """).center()
     return
@@ -36,6 +41,27 @@ def _(mo):
     return
 
 
+@app.function
+# write a factorial function
+
+def factorial(n: int) -> int:
+    """
+    Computes the factorial of a non-negative integer n.
+    Args:
+        n (int): Non-negative integer for which to compute the factorial.
+    Returns:
+        int: Factorial of n.
+    """
+    if n < 0:
+        raise ValueError("Factorial is not defined for negative integers.")
+    if n == 0 or n == 1:
+        return 1
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result
+
+
 @app.cell(hide_code=True)
 def _(mo):
     statement = mo.md("""
@@ -51,7 +77,13 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Mathematical Overview""")
+    mo.md(
+        r"""
+    ---
+
+    ## **Mathematical Overview**
+    """
+    )
     return
 
 
@@ -59,7 +91,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ##### For a vector space having basis \( \{ \vec{v}_1, \ldots, \vec{v}_m \} \) of a subspace \( S \subset \mathbb{R}^n \), the **Gram–Schmidt** process constructs an _**orthonormal basis**_ \( \{ \vec{w}_1, \vec{w}_2, \ldots, \vec{w}_m \} \), such that:
+    #### For a vector space having basis \( \{ \vec{v}_1, \ldots, \vec{v}_m \} \) of a subspace \( S \subset \mathbb{R}^n \), the **Gram–Schmidt** process constructs an _**orthonormal basis**_ \( \{ \vec{w}_1, \vec{w}_2, \ldots, \vec{w}_m \} \), such that:
 
     \[
     \operatorname{gram\_schmidt} \left( \left\{ \vec{v}_1, \vec{v}_2, \ldots, \vec{v}_m \right\} \right)
@@ -268,7 +300,7 @@ def _(A, gs_Orthogonalization, mo, np):
 
 @app.cell(hide_code=True)
 def _(Q_A, is_Orthonormal, mo):
-    mo.plain_text(is_Orthonormal(Q_A))
+    mo.plain(is_Orthonormal(Q_A)).child
     return
 
 
@@ -314,7 +346,7 @@ def _(mo):
 
 
 @app.cell
-def _(A, Q_A, np, plt):
+def _(A, Q_A, mo, np, plt):
     # comparison plot
 
     # Standard basis vectors
@@ -373,7 +405,8 @@ def _(A, Q_A, np, plt):
     _ax2.set_zlabel('Z', fontsize=9)
 
     plt.tight_layout()
-    fig2
+
+    mo.accordion({"🦚 An additional plot I made to understand the difference...":fig2}).style({"color":"blue"})
     return
 
 
@@ -381,7 +414,8 @@ def _(A, Q_A, np, plt):
 def _(mo):
     mo.md(
         r"""
-    ###### **Now, let's have a look at QR Decompostion using Gram-Schmidt** 
+    <br>
+    ##### **Let's have a look at QR Decompostion using Gram-Schmidt** 
     ## **QR Decomposition via the Gram–Schmidt Process 📐**
     ---
     """
@@ -489,28 +523,45 @@ def _(A, gs_QR_Decomposition, mo):
     return QA, RA
 
 
+@app.function
+def to_latex(A):
+    """
+    rendering the matrix into LaTEX code.
+    """
+    rows = [" & ".join(map(str, row)) for row in A]
+    mat = r"\begin{bmatrix}" + r" \\".join(rows) + r"\end{bmatrix}"
+    return r"\[" + mat + r"\]"
+
+
+@app.cell
+def _():
+    # this is about to be changed 
+    # mo.md(f"""{mo.plain_text(A)}""")
+    return
+
+
 @app.cell
 def _(A, QA, RA, mo):
     _v1_stack = mo.vstack([
         mo.md("#### **Original Vectors (A)**"),
-        mo.plain_text(A)
+        mo.md(to_latex(A))
     ], align="center")
 
     _v2_stack = mo.vstack([
-        mo.md("#### **Q**"),
-        mo.plain_text(QA)
+        mo.md("#### **Orthonormal (Q)**"),
+        mo.md(to_latex(QA.astype("int64")))
     ],align="center")
 
     _v3_stack = mo.vstack([
-        mo.md("#### **R**"),
-        mo.plain_text(RA)
+        mo.md("#### **Upper Triangular (R)**"),
+        mo.md(to_latex(RA.astype("int64")))
     ],align="center")
 
 
-    stack = mo.hstack([_v1_stack,mo.md("### QR Decomposition ➡️").center(), _v2_stack, _v3_stack],
+    stack = mo.hstack([_v1_stack,mo.md("## **QR Decomposition** ➡️").center(), _v2_stack, _v3_stack],
              align="center",gap=0, widths=[0.3,0.5,0.20,0.30])
 
-    mo.show_code(stack,position="above")
+    stack
     return
 
 
@@ -532,7 +583,7 @@ def _(A, QA, RA, mo, np):
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(A, QA, RA, np, plt):
     # orientation plot
 
@@ -551,7 +602,7 @@ def _(A, QA, RA, np, plt):
     transformed_R = RA @ sphere_points
 
     # Plot
-    fig = plt.figure(figsize=(10, 3.5))  # Smaller plots
+    fig = plt.figure(figsize=(9.5, 5))  # Smaller plots
     fig.suptitle("Orientation Figures of the Transformations")
     # A: Full Transformation
     ax1 = fig.add_subplot(131, projection='3d')
@@ -635,22 +686,6 @@ def _(fig, mo):
 
     # stacking
     mo.vstack([orientation_md, sidenote, plot,bullet_pts]).center()
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(
-        r"""
-
-
-
-
-    ### The Upper Triangular 🟢
-
-    ##### The stretched/skewed ellipsoid containing the necessary coefficients for the Matrix Q. _It is skewed in general, since the lower triangular values are 0._
-    """
-    )
     return
 
 
