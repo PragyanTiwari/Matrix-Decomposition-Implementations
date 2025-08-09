@@ -13,11 +13,6 @@ def _():
     return mo, np, plt
 
 
-@app.cell
-def _():
-    return
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
@@ -27,51 +22,93 @@ def _(mo):
     return
 
 
+@app.cell
+def _():
+    # styling dicts for markdown
+
+    style_dict = {
+        "color": "#2d3436",
+        "font-family": "Roboto",
+        "font-size": "1.05rem",
+        "line-height": "1.6",
+        "letter-spacing": "0.5px",
+        "padding": "12px 18px",
+        "border-radius": "8px"
+    }
+
+    style_dict_2 = {
+        "color": "#2d3436",
+        "font-family": "Roboto",
+        "font-size": "1.05rem",
+        "line-height": "1.6",
+        "letter-spacing": "0.5px",
+        "background-color": "#f8f9fa",
+        "padding": "12px 18px",
+        "border-radius": "8px"
+    }
+    return style_dict, style_dict_2
+
+
+@app.cell
+def _(mo, style_dict):
+    mo.md(
+        r"""
+    **_Talking about Orthogonality..._**
+
+    #### **Orthonormal basis are the cornerstone of Linear Algebra — a set of vectors that are not only mutually perpendicular (orthogonal) but also of unit length (normalized). This unique combination makes them exceptionally powerful in simplifying complex problems. In Machine Learning, orthonormal bases serve as the backbone for techniques like Singular Value Decomposition (*SVD*), Principal Component Analysis (*PCA*), and various feature engineering methods**
+    """
+    ).style(style_dict)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo, style_dict_2):
+    mo.md("""
+    **In Gram-Schmidt Orthogonalization,  We simply,**
+
+    1. take a set of linearly independent vectors (*stored in a matrix*). Think of it like having mix fruits both apples & bananas 🍎🍌.
+    2. We then find and cut down their projection on each other — separating apples from bananas, so nothing overlaps.
+    3. and, normalizing and arranging them so that they become Orthogonal — now each fruit gets its own clean basket, ***representing its own unique dimension***.
+    """).style(style_dict_2)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
-    #### **_Talking about Orthogonality_**
+    #### **In Technical Terms,**
 
-    ##### From a geometric perspective, an orthogonal matrix represents a linear transformation that preserves the length of vectors and the angles between them. Such transformations include rotations, reflections, or combinations of these operations in n-dimensional space. **This means that when we multiply a vector by an orthogonal matrix, only its orientation changes — not its magnitude.**
-    <br>
-    ##### In _**Gram-Schmidt Orthogonalization**_, we take a set of linearly independent vectors and systematically construct an orthonormal basis from them. The process removes projections of each vector onto the ones before it, ensuring orthogonality, and then normalizes the result to unit length.
+    _An orthogonal matrix_ represents a linear transformation that preserves both vector lengths and angles. It could be a rotation, a reflection, or a combination in _n_-dimensional space. The key insight is that multiplying a vector by an orthogonal matrix changes _where_ it points, but not _how long_ it is.
+
+
+    **_Through this notebook_, you'll build the understanding of the mathematical Intuition along with its scratch implementation in python. Also check out, how this orthogonalization process plays a key role in QR Decomposition, and later understand how a matrix’s orientation changes through a transformation.**
     """
-    )
+    ).style({"color": "blue"})
     return
-
-
-@app.function
-# write a factorial function
-
-def factorial(n: int) -> int:
-    """
-    Computes the factorial of a non-negative integer n.
-    Args:
-        n (int): Non-negative integer for which to compute the factorial.
-    Returns:
-        int: Factorial of n.
-    """
-    if n < 0:
-        raise ValueError("Factorial is not defined for negative integers.")
-    if n == 0 or n == 1:
-        return 1
-    result = 1
-    for i in range(2, n + 1):
-        result *= i
-    return result
 
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.md(r"""This notebook is the first draft of the project of  Matrix Decomposition Pipeline & its real-life Applications (you'll see in further updates of the [repo](https://github.com/PragyanTiwari/Matrix-Decompositions-Implementation-for-SVD-PCA) .)""")
+    return
+
+
+@app.cell
+def _(mo):
+    # side quest - 1
+
     statement = mo.md("""
+    #### **Still not getting what Orthogonality is???**
+
     *here is the call! and it simply means,*
 
-    ##### **Perpendicular Vectors == Orthogonal Vectors**, 
+    #### **Perpendicular Vectors == Orthogonal Vectors**, 
     where, the dot product of any two vectors in vector space is *0*.
-    """)
 
-    mo.accordion({"Don't know what orthogonality is ???":statement})
+    """).style({'color':'purple'})
+
+    mo.accordion({"side quest 🏴‍☠️":statement}).right()
     return
 
 
@@ -88,7 +125,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(mo, style_dict_2):
     mo.md(
         r"""
     #### For a vector space having basis \( \{ \vec{v}_1, \ldots, \vec{v}_m \} \) of a subspace \( S \subset \mathbb{R}^n \), the **Gram–Schmidt** process constructs an _**orthonormal basis**_ \( \{ \vec{w}_1, \vec{w}_2, \ldots, \vec{w}_m \} \), such that:
@@ -158,14 +195,14 @@ def _(mo):
     Q^T. Q \approx I
     \]
     """
-    )
+    ).style(style_dict_2)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
     side_note_for_norm = mo.md(r"""
-    💡 **For you info..** 
+    **For your info..** 
 
     In the Gram–Schmidt process, the norm \( \| \cdot \| \) used here is the **Euclidean norm** (also known as the **\(\ell^2 \)** norm).
 
@@ -176,15 +213,15 @@ def _(mo):
 
     Measuring the **Euclidean distance** of a vector \( \vec{v} \in \mathbb{R}^n \) from the origin.
     """)
-    mo.callout(side_note_for_norm,kind="info")
+    mo.callout(side_note_for_norm,kind="neutral")
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
-    ## **Here's the Scratch Implementation ✍️**
+    ## **Here's the Scratch Implementation**
     ---
     """
     )
@@ -193,7 +230,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""defining a vector space A,""")
+    mo.md(r"""**defining a vector space A,**""")
     return
 
 
@@ -214,7 +251,7 @@ def _(A):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""###### `gs_Orthogonalization` func. which uses the Gram-Schmidt Process,""")
+    mo.md(r"""###### **`gs_Orthogonalization` func. which uses the Gram-Schmidt Process,**""")
     return
 
 
@@ -265,7 +302,7 @@ def _(mo, np):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(mo, style_dict_2):
     mo.md(
         r"""
     ###### Now, we'll define a func. `is_orthonormal` to check the orthonormality of a Matrix satisfying the following fundamental step,
@@ -273,7 +310,7 @@ def _(mo):
     Q^T. Q = I
     \]
     """
-    )
+    ).style(style_dict_2)
     return
 
 
@@ -298,7 +335,7 @@ def _(A, gs_Orthogonalization, mo, np):
     return Q_A, is_Orthonormal
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(Q_A, is_Orthonormal, mo):
     mo.plain(is_Orthonormal(Q_A)).child
     return
@@ -306,36 +343,38 @@ def _(Q_A, is_Orthonormal, mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""##### **Therefore,**""")
+    mo.md(r"""##### **Therefore, getting the results as follow,**""")
+    return
+
+
+@app.cell
+def _():
+    # matrices = {"Original Vectors":"a",
+    #             "Orthogonal Vectors":"q"}
+
+    # radio = mo.ui.radio(options=matrices,
+    #             value="Original Vectors",
+    #             label="#### select the matrix")
+
+    # radio.value
     return
 
 
 @app.cell
 def _(A, Q_A, mo):
-
     v1_stack = mo.vstack([
-        mo.md("#### **Original Vectors**"),
-        mo.plain_text(A)
+        mo.md("#### **Original Vectors (A)**"),
+        mo.md(to_latex(A))
     ], align="center")
 
+    st = mo.md("### turns into ➡️").center()
+
     v2_stack = mo.vstack([
-        mo.md("#### **Orthonormal Vectors**"),
-        mo.plain_text(Q_A)
+        mo.md("#### **Orthonormal (Q)**"),
+        mo.md(to_latex(Q_A.astype("int64")))
     ],align="center")
 
-    mo.hstack([v1_stack,mo.md("### turns into ➡️"), v2_stack],
-             align="center",gap=0)
-    return
-
-
-@app.cell
-def _(mo):
-    mo.callout(mo.md("##### 🎯 Here, we got the success, `Q_A` storing the orthonormal vectors satisfies the eq."),kind="success").style({
-        "font-size": "0.85rem",   # smaller text
-        "padding": "0.2rem",      # less inner spacing
-        "margin": "0.2rem 0",     # less space around
-        "border-radius": "100px"    # optional: slightly tighter corners
-    }).center()
+    mo.hstack([v1_stack,st,v2_stack],justify="center")
     return
 
 
@@ -346,7 +385,7 @@ def _(mo):
 
 
 @app.cell
-def _(A, Q_A, mo, np, plt):
+def _(A, Q_A, mo, np, plt, style_dict_2):
     # comparison plot
 
     # Standard basis vectors
@@ -406,7 +445,7 @@ def _(A, Q_A, mo, np, plt):
 
     plt.tight_layout()
 
-    mo.accordion({"🦚 An additional plot I made to understand the difference...":fig2}).style({"color":"blue"})
+    mo.accordion({"click here to see an additional plot for better intuition...":fig2}).style(style_dict_2)
     return
 
 
@@ -415,7 +454,7 @@ def _(mo):
     mo.md(
         r"""
     <br>
-    ##### **Let's have a look at QR Decompostion using Gram-Schmidt** 
+    ##### **Done with the implementation of the process. Let's have a look how we use it [QR Decomposition](https://en.wikipedia.org/wiki/QR_decomposition#:~:text=In%20linear%20algebra%2C%20a%20QR,is%20the%20basis%20for%20a) of a matrix.** 
     ## **QR Decomposition via the Gram–Schmidt Process 📐**
     ---
     """
@@ -424,7 +463,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(mo, style_dict_2):
     mo.md(
         r"""
     ##### The matrix \( A \in \mathbb{R}^{n \times k} \) can be decomposed and be represented in other form, i.e.:
@@ -466,7 +505,7 @@ def _(mo):
     \end{bmatrix}
     \]
     """
-    )
+    ).style(style_dict_2)
     return
 
 
@@ -534,14 +573,7 @@ def to_latex(A):
 
 
 @app.cell
-def _():
-    # this is about to be changed 
-    # mo.md(f"""{mo.plain_text(A)}""")
-    return
-
-
-@app.cell
-def _(A, QA, RA, mo):
+def _(A, QA, RA, mo, style_dict):
     _v1_stack = mo.vstack([
         mo.md("#### **Original Vectors (A)**"),
         mo.md(to_latex(A))
@@ -559,20 +591,20 @@ def _(A, QA, RA, mo):
 
 
     stack = mo.hstack([_v1_stack,mo.md("## **QR Decomposition** ➡️").center(), _v2_stack, _v3_stack],
-             align="center",gap=0, widths=[0.3,0.5,0.20,0.30])
+             align="center",gap=0, widths=[0.3,0.5,0.20,0.30]).style(style_dict)
 
     stack
     return
 
 
 @app.cell
-def _(mo):
+def _(mo, style_dict):
     mo.md(
         r"""
     <br>
-    Since, the necessary matrices are produced. Let's check whether their dot product i.e. `QA @ RA` found similar to **matrix A**.
+    **Since, the necessary matrices are produced. Let's check whether their dot product i.e. `QA @ RA` found similar to matrix A.**
     """
-    )
+    ).style(style_dict)
     return
 
 
