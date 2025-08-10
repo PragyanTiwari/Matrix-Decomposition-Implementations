@@ -348,33 +348,19 @@ def _(mo):
 
 
 @app.cell
-def _():
-    # matrices = {"Original Vectors":"a",
-    #             "Orthogonal Vectors":"q"}
+def _(A, Q_A, mo):
+    matrices = {"Original Vectors":mo.md(to_latex(A)),
+                "Orthonormal Vectors":mo.md(to_latex(Q_A.astype("int64")))}
 
-    # radio = mo.ui.radio(options=matrices,
-    #             value="Original Vectors",
-    #             label="#### select the matrix")
-
-    # radio.value
-    return
+    radio = mo.ui.radio(options=matrices,
+                value="Original Vectors",
+                label="#### **select the matrix**")
+    return (radio,)
 
 
 @app.cell
-def _(A, Q_A, mo):
-    v1_stack = mo.vstack([
-        mo.md("#### **Original Vectors (A)**"),
-        mo.md(to_latex(A))
-    ], align="center")
-
-    st = mo.md("### turns into ➡️").center()
-
-    v2_stack = mo.vstack([
-        mo.md("#### **Orthonormal (Q)**"),
-        mo.md(to_latex(Q_A.astype("int64")))
-    ],align="center")
-
-    mo.hstack([v1_stack,st,v2_stack],justify="center")
+def _(mo, radio, style_dict):
+    mo.hstack([radio.center(),radio.value.center()]).style(style_dict)
     return
 
 
@@ -699,19 +685,19 @@ def _(fig, mo):
     _first = mo.md("""
     ### **The Original 🔴**
 
-    ##### The ellipsoid shape here illustrating the orientation of **matrix A**, looks stretched and carrying the real vector values.
+    The ellipsoid shape here illustrating the orientation of **matrix A**, looks stretched and carrying the real vector values.
     """).center()
 
     _second = mo.md("""
     ### **The pure rotation 🔵**
 
-    ##### The pure non-linear transformation done by Gram-Schmidt Orthogonalization, taking the orientation of **unit sphere**, containing Orthonormal Vectors, preserving the magnitude ratio and structure of the original matrix.
+    The pure non-linear transformation done by Gram-Schmidt Orthogonalization, taking the orientation of **unit sphere**, containing Orthonormal Vectors, preserving the magnitude ratio and structure of the original matrix.
     """).center()
 
     _third = mo.md("""
     ### **The Upper Triangular 🟢**
 
-    ##### The stretched/skewed ellipsoid containing the necessary coefficients for the Matrix Q. _It is skewed in general, since the lower triangular values are 0._
+    The stretched/skewed ellipsoid containing the necessary coefficients for the Matrix Q. _It is skewed in general, since the lower triangular values are 0._
     """).center()
 
     bullet_pts = mo.hstack([_first,_second,_third],gap=2)

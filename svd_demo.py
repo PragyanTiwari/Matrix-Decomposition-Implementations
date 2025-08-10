@@ -7,7 +7,8 @@ app = marimo.App(width="medium", css_file="custom.css")
 @app.cell
 def _():
     import marimo as mo
-    return (mo,)
+    import numpy as np
+    return mo, np
 
 
 @app.cell
@@ -109,12 +110,34 @@ def _(mo):
 
 
 @app.cell
-def _():
-    return
+def _(np):
+    A = np.array([[1,0,0], [2,0,3], [4,5,6]]).T
+    Q,_ = np.linalg.qr(A)
+
+    def to_latex(A):
+        """
+        rendering the matrix into LaTEX code.
+        """
+        rows = [" & ".join(map(str, row)) for row in A]
+        mat = r"\begin{bmatrix}" + r" \\".join(rows) + r"\end{bmatrix}"
+        return r"\[" + mat + r"\]"
+    return A, Q, to_latex
 
 
 @app.cell
-def _():
+def _(A, Q, mo, to_latex):
+    matrices = {"Original Vectors":mo.md(to_latex(A)),
+                "Orthogonal Vectors":mo.md(to_latex(Q))}
+
+    radio = mo.ui.radio(options=matrices,
+                value="Original Vectors",
+                label="#### select the matrix")
+    return (radio,)
+
+
+@app.cell
+def _(mo, radio):
+    mo.hstack([radio.center(),radio.value.center()])
     return
 
 
