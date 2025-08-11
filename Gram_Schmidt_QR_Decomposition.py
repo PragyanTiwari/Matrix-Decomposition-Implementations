@@ -433,9 +433,28 @@ def _(mo):
     mo.md(
         r"""
     <br>
-    ##### **Done with the implementation of the process. Let's have a look how we use it [QR Decomposition](https://en.wikipedia.org/wiki/QR_decomposition#:~:text=In%20linear%20algebra%2C%20a%20QR,is%20the%20basis%20for%20a) of a matrix.** 
-    ## **QR Decomposition via the Gram–Schmidt Process 📐**
+    ## **QR Decomposition via the Gram–Schmidt Process**
     ---
+    """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    ### **From a Broader Perspective,**
+
+    ##### **The Gram–Schmidt process doesn’t just give us the orthonormal basis, it naturally leads to the bigger picture,**
+
+    ##### **_QR Decomposition_, a proficient way to represent `matrix A` in the form of Orthogonality & Upper-Triangularity...**
+
+    ##### **This powerful decomposition technique is computationaly practical, helping us solve linear system & least squares problems, and many ML algorithms...**
+
+    **You can learn more about QR Decomposition [here](https://en.wikipedia.org/wiki/QR_decomposition#:~:text=In%20linear%20algebra%2C%20a%20QR,is%20the%20basis%20for%20a).**
+
+    <br>
     """
     )
     return
@@ -445,6 +464,9 @@ def _(mo):
 def _(mo, style_dict_2):
     mo.md(
         r"""
+    #### **A simple understanding of its working is written here,**
+    ---
+
     ##### The matrix \( A \in \mathbb{R}^{n \times k} \) can be decomposed and be represented in other form, i.e.:
 
     \[
