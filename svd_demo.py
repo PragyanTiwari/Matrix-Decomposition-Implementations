@@ -34,7 +34,19 @@ def _():
         "border-radius": "8px"
     }
 
-    return (style_dict_2,)
+    style_dict_3 = {
+        "background-color": "#f9f9f9",
+        "padding": "12px",
+        "border-radius": "8px",
+        "line-height": "1.6"
+    }
+
+    style_dict_4 = {"-webkit-background-clip": "text",
+    "color": "transparent",
+    "background": "linear-gradient(90deg, #ff8a00, #e52e71)"
+                   }
+
+    return style_dict_3, style_dict_4
 
 
 @app.cell(hide_code=True)
@@ -43,6 +55,13 @@ def _(mo):
     # **Orthonormal Basis Constructions with Gram-Schmidt Algorithm**
     ---
     """).center()
+
+    return
+
+
+@app.cell
+def _(mo, style_dict_4):
+    mo.md("d").style(style_dict_4)
     return
 
 
@@ -58,15 +77,21 @@ def _(mo):
     return
 
 
+@app.cell
+def _(mo, style_dict_3):
+    mo.md("this is a markdown").style(style_dict_3)
+    return
+
+
 @app.cell(hide_code=True)
-def _(mo, style_dict_2):
+def _(mo, style_dict_3):
     mo.md("""
     **In Gram-Schmidt Orthogonalization,  We simply,**
 
     1. take a set of linearly independent vectors (*stored in a matrix*). Think of it like having mix fruits both apples & bananas 🍎🍌.
     2. We then find and cut down their projection on each other — separating apples from bananas, so nothing overlaps.
     3. and, normalizing and arranging them so that they become Orthogonal — now each fruit gets its own clean basket, ***representing its own unique dimension***.
-    """).style(style_dict_2)
+    """).style(style_dict_3)
     return
 
 

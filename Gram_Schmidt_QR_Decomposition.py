@@ -22,7 +22,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _():
     # styling dicts for markdown
 
@@ -37,24 +37,18 @@ def _():
     }
 
     style_dict_2 = {
-        "color": "#2d3436",
-        "font-family": "Roboto",
-        "font-size": "1.05rem",
-        "line-height": "1.6",
-        "letter-spacing": "0.5px",
-        "background-color": "#f8f9fa",
-        "padding": "12px 18px",
-        "border-radius": "8px"
+        "background-color": "#f9f9f9",
+        "padding": "12px",
+        "border-radius": "8px",
+        "line-height": "1.6"
     }
     return style_dict, style_dict_2
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo, style_dict):
     mo.md(
         r"""
-    **_Talking about Orthogonality..._**
-
     #### **Orthonormal basis are the cornerstone of Linear Algebra — a set of vectors that are not only mutually perpendicular (orthogonal) but also of unit length (normalized). This unique combination makes them exceptionally powerful in simplifying complex problems. In Machine Learning, orthonormal bases serve as the backbone for techniques like Singular Value Decomposition (*SVD*), Principal Component Analysis (*PCA*), and various feature engineering methods**
     """
     ).style(style_dict)
@@ -64,7 +58,7 @@ def _(mo, style_dict):
 @app.cell(hide_code=True)
 def _(mo, style_dict_2):
     mo.md("""
-    **In Gram-Schmidt Orthogonalization,  We simply,**
+    **In Gram-Schmidt Orthogonalization, to produce Orthonormal VECTORS,  We simply,**
 
     1. take a set of linearly independent vectors (*stored in a matrix*). Think of it like having mix fruits both apples & bananas 🍎🍌.
     2. We then find and cut down their projection on each other — separating apples from bananas, so nothing overlaps.
@@ -77,20 +71,14 @@ def _(mo, style_dict_2):
 def _(mo):
     mo.md(
         r"""
-    #### **In Technical Terms,**
+    #### **In Technical Terms, we understand that,**
 
-    _An orthogonal matrix_ represents a linear transformation that preserves both vector lengths and angles. It could be a rotation, a reflection, or a combination in _n_-dimensional space. The key insight is that multiplying a vector by an orthogonal matrix changes _where_ it points, but not _how long_ it is.
+    ##### **An orthogonal matrix represents a linear transformation preserving both vector lengths and angles. It could be a rotation, a reflection, or a combination in _n_-dimensional space. The key insight is that multiplying a vector by an orthogonal matrix changes _where_ it points, but not _how long_ it is.**
 
 
-    **_Through this notebook_, you'll build the understanding of the mathematical Intuition along with its scratch implementation in python. Also check out, how this orthogonalization process plays a key role in QR Decomposition, and later understand how a matrix’s orientation changes through a transformation.**
+    **Through this notebook**, you'll build the understanding of the mathematical Intuition along with its scratch implementation in python. Also check out, how this orthogonalization process plays a key role in QR Decomposition, and understand how a matrix’s orientation changes through a transformation.
     """
     ).style({"color": "blue"})
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""This notebook is the first draft of the project of  Matrix Decomposition Pipeline & its real-life Applications (you'll see in further updates of the [repo](https://github.com/PragyanTiwari/Matrix-Decompositions-Implementation-for-SVD-PCA) .)""")
     return
 
 
@@ -118,7 +106,7 @@ def _(mo):
         r"""
     ---
 
-    ## **Mathematical Overview**
+    ## **Getting its Mathematical Overview**
     """
     )
     return
@@ -202,7 +190,7 @@ def _(mo, style_dict_2):
 @app.cell(hide_code=True)
 def _(mo):
     side_note_for_norm = mo.md(r"""
-    **For your info..** 
+    ##### **An info. to be pointed out...** 
 
     In the Gram–Schmidt process, the norm \( \| \cdot \| \) used here is the **Euclidean norm** (also known as the **\(\ell^2 \)** norm).
 
@@ -230,7 +218,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""**defining a vector space A,**""")
+    mo.md(r"""**first, defining a vector space, calling it A.**""")
     return
 
 
@@ -251,7 +239,7 @@ def _(A):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""###### **`gs_Orthogonalization` func. which uses the Gram-Schmidt Process,**""")
+    mo.md(r"""###### **Now, let's define func. `gs_Orthogonalization` which will utilize the Gram-Schmidt Process,**""")
     return
 
 
@@ -305,7 +293,7 @@ def _(mo, np):
 def _(mo, style_dict_2):
     mo.md(
         r"""
-    ###### Now, we'll define a func. `is_orthonormal` to check the orthonormality of a Matrix satisfying the following fundamental step,
+    ###### **Now, we'll define a func. `is_orthonormal` to check the orthonormality of a Matrix satisfying the following fundamental step,**
     \[
     Q^T. Q = I
     \]
@@ -326,8 +314,11 @@ def _(A, gs_Orthogonalization, mo, np):
         I = np.eye(Q.shape[1], dtype=Q.dtype)
         return np.allclose(Q_TQ, I)
 
+
+    # calling the function
     Q_A = gs_Orthogonalization(A)
 
+    # checking the condition
     is_Orthonormal(Q_A)
 
     mo.show_code()
@@ -343,14 +334,14 @@ def _(Q_A, is_Orthonormal, mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""##### **Therefore, getting the results as follow,**""")
+    mo.md(r"""##### **The above justifies the orthogonality achieved by the matrix `Q_A`. You can find the changes we've made till now below,**""")
     return
 
 
 @app.cell
 def _(A, Q_A, mo):
-    matrices = {"Original Vectors":mo.md(to_latex(A)),
-                "Orthonormal Vectors":mo.md(to_latex(Q_A.astype("int64")))}
+    matrices = {"Original Vectors":[mo.md(to_latex(A)), mo.md("## hmm...").left()],
+                "Orthonormal Vectors":[mo.md(to_latex(Q_A.astype("int64"))), mo.md("## Perfect.").left()]}
 
     radio = mo.ui.radio(options=matrices,
                 value="Original Vectors",
@@ -360,7 +351,9 @@ def _(A, Q_A, mo):
 
 @app.cell
 def _(mo, radio, style_dict):
-    mo.hstack([radio.center(),radio.value.center()]).style(style_dict)
+    mo.hstack([radio.center(), radio.value[0].center(), radio.value[1].left()],
+              widths=[1,2,1],
+              align="center").style(style_dict)
     return
 
 
@@ -431,7 +424,7 @@ def _(A, Q_A, mo, np, plt, style_dict_2):
 
     plt.tight_layout()
 
-    mo.accordion({"click here to see an additional plot for better intuition...":fig2}).style(style_dict_2)
+    mo.accordion({"want a BETTER intuition of this, click here...":fig2}).style(style_dict_2)
     return
 
 
