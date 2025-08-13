@@ -59,7 +59,7 @@ def _():
     }
 
 
-    return style_dict_3, style_dict_4
+    return style_dict_2, style_dict_3, style_dict_4
 
 
 @app.cell(hide_code=True)
@@ -180,20 +180,36 @@ def _(mo, radio):
 
 
 @app.cell
+def _(mo, style_dict_2):
+    first_ = mo.md("""
+    ### **The Original 🔴**
+
+    ##### **The red ellipsoid shape here illustrates the orientation of `matrix A`, looking stretched and reflecting how vectors are distributed in space.**
+    """).style(style_dict_2).center()
+
+    second_ = mo.md("""
+    ### **The Pure Rotation 🔵**
+
+    ##### **After extracting the orthogonal component Q, the transformation becomes a pure rotation. This preserves lengths and angles, so the shape turns into a perfect unit sphere — showing that the vectors are now absolutely orthogonal without any stretching in any direction.**
+    """).style(style_dict_2).center()
+
+    third_ = mo.md("""
+    ### **The Upper Triangular 🟢**
+
+    ##### **Even visually, matrix R being filled with values only in upper triangular proportion, the orientation will be skewed/stretched to a certain axis, containing all those vector coefficients.**
+    """).style(style_dict_2).center()
+
+    bullet_pts = mo.hstack([first_,second_,third_], align="stretch").center()
+    return
+
+
+@app.cell
 def _(mo):
-    mo.md(
-        r"""
-    <div>
-        this is the first thig
-    </div>
-    <div>
-    
-    </div>
-    <div>
-        heere
-    </div>
-    """
-    )
+    # move it to heading 2
+
+    mo.md("""
+    ## Have a look at the Graph!
+    """).style({"color":"green","font-weight":"bold","font-size":"1.2rem", "font-family":"Lora"})
     return
 
 

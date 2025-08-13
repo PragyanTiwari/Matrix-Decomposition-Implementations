@@ -706,16 +706,20 @@ def _(A, QA, RA, np, plt):
 
 
 @app.cell
-def _(fig, mo):
+def _(fig, mo, style_dict, style_dict_2):
     # description
     orientation_md = mo.md(
         r"""
     <br>
-    ### **The Matrix Orientation**
+    ## **Orientation Figures from QR Decomposition**
+    ---
 
-    ##### The original `matrix (A)` gets transformed into decomposed matrices i.e. `Q` & `R`. The orientation of originality changes such that it preserves some of the properties. Here's the detailed explanation...
     """
     )
+
+    desc_md = mo.md("""
+    ##### **The original `matrix (A)` gets transformed into decomposed matrices i.e. `Q` & `R`. The orientation of originality changes such that it preserves some of the properties. Here's the detailed explanation...**
+    """).style(style_dict)
 
     # interactive plot
     plot = mo.mpl.interactive(fig).callout()
@@ -723,33 +727,38 @@ def _(fig, mo):
 
     # notice
     sidenote = mo.md(
-        r"""**Note:** The scale is relative here to the transformation (_not absolute_), but the equation is consistent."""
-    ).style({"color": "red"})
+        r"""**NOTE:** The scale is relative here to the transformation (_not absolute_), but the equation is consistent."""
+    ).style({"color": "blue"})
 
 
     # creating bullet points for interpretation
-    _first = mo.md("""
+    first_ = mo.md("""
     ### **The Original 🔴**
 
-    The ellipsoid shape here illustrating the orientation of **matrix A**, looks stretched and carrying the real vector values.
-    """).center()
+    ##### **The red ellipsoid shape here illustrates the orientation of `matrix A`, looking stretched and reflecting how vectors are distributed in space.**
+    """).style(style_dict_2).center()
 
-    _second = mo.md("""
-    ### **The pure rotation 🔵**
+    second_ = mo.md("""
+    ### **The Pure Rotation 🔵**
 
-    The pure non-linear transformation done by Gram-Schmidt Orthogonalization, taking the orientation of **unit sphere**, containing Orthonormal Vectors, preserving the magnitude ratio and structure of the original matrix.
-    """).center()
+    ##### **After extracting the orthogonal component Q, the transformation becomes a pure rotation. This preserves lengths and angles, so the shape turns into a perfect unit sphere — showing that the vectors are now absolutely orthogonal without any stretching in any direction.**
+    """).style(style_dict_2).center()
 
-    _third = mo.md("""
+    third_ = mo.md("""
     ### **The Upper Triangular 🟢**
 
-    The stretched/skewed ellipsoid containing the necessary coefficients for the Matrix Q. _It is skewed in general, since the lower triangular values are 0._
-    """).center()
+    ##### **Even visually, matrix R being filled with values only in upper triangular proportion, the orientation will be skewed/stretched to a certain axis, containing all those vector coefficients.**
+    """).style(style_dict_2).center()
 
-    bullet_pts = mo.hstack([_first,_second,_third],gap=2)
+    bullet_pts = mo.hstack([first_,second_,third_], align="stretch").center()
 
     # stacking
-    mo.vstack([orientation_md, sidenote, plot,bullet_pts]).center()
+    mo.vstack([orientation_md, desc_md, sidenote, plot,bullet_pts]).center()
+    return
+
+
+@app.cell
+def _():
     return
 
 
