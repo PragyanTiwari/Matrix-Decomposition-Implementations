@@ -65,13 +65,16 @@ def _(mo, style_dict):
 
 @app.cell(hide_code=True)
 def _(mo, style_dict_2):
-    mo.md("""
+    mo.md(
+        r"""
+
     **In Gram-Schmidt Orthogonalization, to produce Orthonormal VECTORS,  We simply,**
 
-    1. take a set of linearly independent vectors (*stored in a matrix*). Think of it like having mix fruits both apples & bananas 🍎🍌.
-    2. We then find and cut down their projection on each other — separating apples from bananas, so nothing overlaps.
-    3. and, normalizing and arranging them so that they become Orthogonal — now each fruit gets its own clean basket, ***representing its own unique dimension***.
-    """).style(style_dict_2)
+    1. **take a set of linearly independent vectors (*stored in a matrix*)** — think of it like having mix fruits both apples & bananas 🍎🍌.
+    2. **We then find and cut down their projection on each other** — separating apples from bananas, so nothing overlaps.
+    3. **and, normalizing and arranging them so that they become Orthogonal** — now each fruit gets its own clean basket, *representing its own unique dimension*
+    """
+    ).style(style_dict_2)
     return
 
 
@@ -79,9 +82,9 @@ def _(mo, style_dict_2):
 def _(mo, style_dict_3):
     mo.md(
         r"""
-    #### **In Technical Terms, we understand that,**
+    #### **In Technical Terms, we see,**
 
-    ##### **An orthogonal matrix represents a linear transformation preserving both vector lengths and angles. It could be a rotation, a reflection, or a combination in _n_-dimensional space. The key insight is that multiplying a vector by an orthogonal matrix changes _where_ it points, but not _how long_ it is.**
+    ##### **An *orthogonal matrix* represents a linear transformation preserving both vector lengths and angles. It could be a rotation, a reflection, or a combination in _n_-dimensional space. The key insight is that multiplying a vector by an orthogonal matrix changes _where_ it points, but not _how long_ it is.**
     """
     ).style(style_dict_3)
 
@@ -92,7 +95,7 @@ def _(mo, style_dict_3):
 @app.cell
 def _(mo, style_dict):
     mo.md("""
-    **Through this notebook,**
+    **So...Through this notebook,**
 
     **you'll build the understanding of the mathematical Intuition along with its scratch implementation in python. Also check out, how this orthogonalization process plays a key role in QR Decomposition, and understand how a matrix’s orientation changes through a transformation.**
     """).style(style_dict)
@@ -123,7 +126,7 @@ def _(mo):
         r"""
     ---
 
-    ## **What Mathematically it says,**
+    ## **A mathematical Intuition,**
     """
     )
     return
@@ -708,7 +711,7 @@ def _(fig, mo):
     orientation_md = mo.md(
         r"""
     <br>
-    ### **Here's the breakdown (_The final Orientation_)**
+    ### **The Matrix Orientation**
 
     ##### The original `matrix (A)` gets transformed into decomposed matrices i.e. `Q` & `R`. The orientation of originality changes such that it preserves some of the properties. Here's the detailed explanation...
     """
