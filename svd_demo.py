@@ -41,10 +41,23 @@ def _():
         "line-height": "1.6"
     }
 
-    style_dict_4 = {"-webkit-background-clip": "text",
-    "color": "transparent",
-    "background": "linear-gradient(90deg, #ff8a00, #e52e71)"
-                   }
+    style_dict_4 = {
+        "border": "2px solid black",
+        "padding": "8px",
+        "border-radius": "4px",
+        "display": "inline-block"
+    }
+
+    style_dict_5 = {
+        "background-color": "#fff3cd",   # soft yellow
+        "border": "1px solid #ffeeba",
+        "color": "#856404",              # dark golden text
+        "padding": "10px 14px",
+        "border-radius": "6px",
+        "font-weight": "500",
+        "display": "block"
+    }
+
 
     return style_dict_3, style_dict_4
 
@@ -61,7 +74,7 @@ def _(mo):
 
 @app.cell
 def _(mo, style_dict_4):
-    mo.md("d").style(style_dict_4)
+    mo.md("this is a markdown").style(style_dict_4)
     return
 
 
@@ -96,7 +109,7 @@ def _(mo, style_dict_3):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(mo, style_dict_4):
     mo.md(
         r"""
     #### **In Technical Terms,**
@@ -106,7 +119,7 @@ def _(mo):
 
     **_Through this notebook_, it'll help you build understanding of the mathematical Intuition along with its scratch implementation in python. Also check out, how this orthogonalization process plays a key role in QR Decomposition, and understand how a matrix’s orientation changes through a transformation.**
     """
-    )
+    ).style(style_dict_4)
     return
 
 
@@ -163,6 +176,24 @@ def _(A, Q, mo, to_latex):
 @app.cell
 def _(mo, radio):
     mo.hstack([radio.center(),radio.value.center()])
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+    <div>
+        this is the first thig
+    </div>
+    <div>
+    
+    </div>
+    <div>
+        heere
+    </div>
+    """
+    )
     return
 
 

@@ -42,7 +42,15 @@ def _():
         "border-radius": "8px",
         "line-height": "1.6"
     }
-    return style_dict, style_dict_2
+
+    style_dict_3 = {
+        "border": "2px solid black",
+        "padding": "8px",
+        "border-radius": "4px",
+        "display": "inline-block"
+    }
+
+    return style_dict, style_dict_2, style_dict_3
 
 
 @app.cell(hide_code=True)
@@ -67,18 +75,27 @@ def _(mo, style_dict_2):
     return
 
 
-@app.cell(hide_code=True)
-def _(mo):
+@app.cell
+def _(mo, style_dict_3):
     mo.md(
         r"""
     #### **In Technical Terms, we understand that,**
 
     ##### **An orthogonal matrix represents a linear transformation preserving both vector lengths and angles. It could be a rotation, a reflection, or a combination in _n_-dimensional space. The key insight is that multiplying a vector by an orthogonal matrix changes _where_ it points, but not _how long_ it is.**
-
-
-    **Through this notebook**, you'll build the understanding of the mathematical Intuition along with its scratch implementation in python. Also check out, how this orthogonalization process plays a key role in QR Decomposition, and understand how a matrix’s orientation changes through a transformation.
     """
-    ).style({"color": "blue"})
+    ).style(style_dict_3)
+
+
+    return
+
+
+@app.cell
+def _(mo, style_dict):
+    mo.md("""
+    **Through this notebook,**
+
+    **you'll build the understanding of the mathematical Intuition along with its scratch implementation in python. Also check out, how this orthogonalization process plays a key role in QR Decomposition, and understand how a matrix’s orientation changes through a transformation.**
+    """).style(style_dict)
     return
 
 
@@ -106,7 +123,7 @@ def _(mo):
         r"""
     ---
 
-    ## **Getting its Mathematical Overview**
+    ## **What Mathematically it says,**
     """
     )
     return
@@ -209,7 +226,8 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ## **Here's the Scratch Implementation**
+    <br>
+    ## **Let's build Orthonormal Basis from scratch**
     ---
     """
     )
@@ -440,8 +458,8 @@ def _(mo):
     return
 
 
-@app.cell
-def _(mo):
+@app.cell(hide_code=True)
+def _(mo, style_dict_3):
     mo.md(
         r"""
     ### **From a Broader Perspective,**
@@ -452,6 +470,16 @@ def _(mo):
 
     ##### **This powerful decomposition technique is computationaly practical, helping us solve linear system & least squares problems, and many ML algorithms...**
 
+
+    """
+    ).style(style_dict_3)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
     **You can learn more about QR Decomposition [here](https://en.wikipedia.org/wiki/QR_decomposition#:~:text=In%20linear%20algebra%2C%20a%20QR,is%20the%20basis%20for%20a).**
 
     <br>
