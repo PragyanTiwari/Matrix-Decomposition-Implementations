@@ -757,8 +757,35 @@ def _(fig, mo, style_dict, style_dict_2):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    <wbr>
+    ## **Citation & Acknowledgements**
+    ---
+    ### **This project is undertaken through many resources, the topmost resources I learnt from,**
+
+    - ##### [**Wikipedia**](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) – **for providing foundational definitions and mathematical references.**
+
+    - ##### [**DataCamp Article**](https://www.datacamp.com/tutorial/orthogonal-matrix) – **for providing informational article upon Orthogonality.**
+
+    - ##### [**MIT OpenCourseWare**](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-17-orthogonal-matrices-and-gram-schmidt/) – **for refurbishing the in-depth knowledge of Gram-Schmidt Process, taught by *Prof. Gilbert Strang*.**
+
+    - ##### [**Steve Brunton (*Amazing Guy*)**](https://www.google.com/search?q=steve+brunton&sca_esv=55a910f019e63594&rlz=1C1GCEA_enIN1112IN1112&sxsrf=AE3TifMoAjuMLl0MOCAV5lyl_Ga8KboiEg%3A1755118367776&ei=H_ucaP-UL_Of4-EPrsmB8QY&ved=0ahUKEwi_oOa21YiPAxXzzzgGHa5kIG4Q4dUDCBA&uact=5&oq=steve+brunton&gs_lp=Egxnd3Mtd2l6LXNlcnAiDXN0ZXZlIGJydW50b24yBBAjGCcyCxAuGIAEGJECGIoFMgsQABiABBiRAhiKBTIKEAAYgAQYQxiKBTIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEiZC1CRBljLCHABeACQAQCYAaoBoAGvAqoBAzAuMrgBA8gBAPgBAZgCA6ACwgLCAggQABiwAxjvBcICCxAAGIAEGLADGKIEwgIKEC4YgAQYQxiKBZgDAIgGAZAGBZIHAzEuMqAHuROyBwMwLjK4B7sCwgcDMi0zyAcP&sclient=gws-wiz-serp)  – **for sparking the interest, this is from where I started this project. *He has a great interest in Physics Implementation of every engineering field.***
+    """
+    )
+    return
+
+
 @app.cell
-def _():
+def _(mo):
+    mo.md(
+        r"""
+    <wbr>
+    ## **And thanks for being here,**
+    """
+    )
     return
 
 
