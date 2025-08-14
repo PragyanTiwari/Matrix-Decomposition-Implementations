@@ -778,14 +778,32 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
     <wbr>
     ## **And thanks for being here,**
+    ---
     """
     )
+    return
+
+
+@app.cell
+def _(mo, style_dict_3):
+    mo.md(
+        r"""
+
+
+    #### **This was one of my dedicated project I worked upon, for showcasing the real life implementation of what I learnt.**
+
+    #### **This notebook, is a part of bigger project, and you'll see other implementations of better algorithms that we deal today in every engineering field. And, how such orthogonalization techniques are combined with Bidiagonality & QR Decomposition and how these are used in real-life applications.** 
+
+    ### **And, to be notified about those updates, you can 🌟 this repo.**
+
+    """
+    ).style(style_dict_3)
     return
 
 
