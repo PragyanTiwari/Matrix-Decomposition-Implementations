@@ -1,0 +1,52 @@
+# This workflow builds and deploys marimo notebooks to GitHub Pages
+# It runs automatically when changes are pushed to the main branch or can be triggered manually
+
+name: Deploy to GitHub Pages
+
+# Defines when the workflow will run
+on:
+  push:
+    branches: ['main']  # Trigger on pushes to main branch
+  workflow_dispatch:    # Allow manual triggering from the GitHub UI
+
+# Concurrency settings to manage multiple workflow runs
+concurrency:
+  group: 'pages'             # Only one workflow in the 'pages' group can run at a time
+  cancel-in-progress: false  # Don't cancel in-progress runs when a new one is triggered
+
+# Environment variables used by the workflow
+env:
+  UV_SYSTEM_PYTHON: 1   # Use system Python with uv package manager
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      # ... checkout and install dependencies
+      - name: Export notebook
+        run: marimo export html-wasm Gram_Schmidt_QR_Decomposition.py -o "artifacts/" --mode run
+
+ 
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: path/to/output
+ 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+ 
+    permissions:
+      pages: write
+      id-token: write
+ 
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
