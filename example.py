@@ -1,1 +1,1 @@
-.github/scripts/build.py
+build.py
