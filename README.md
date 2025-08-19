@@ -2,6 +2,8 @@
 
 A comprehensive implementation of **_Matrix Decomposition Techniques_**, forming the foundations of various scientific and engineering applications. 
 
+![alt text](matrix_giphy.gif)
+
 To gain a deeper understanding of how Orthogonalization & matrices Decomposition works in real-life applications, like,
 - **Signal Processing**
 - **Control Systems and Robotics**
