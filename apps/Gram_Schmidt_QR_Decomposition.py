@@ -6,6 +6,7 @@
 #     "numpy",
 # ]
 # ///
+
 import marimo
 
 __generated_with = "0.14.16"
@@ -783,35 +784,6 @@ def _(mo):
     - ##### [**Steve Brunton (*Amazing Guy*)**](https://www.google.com/search?q=steve+brunton&sca_esv=55a910f019e63594&rlz=1C1GCEA_enIN1112IN1112&sxsrf=AE3TifMoAjuMLl0MOCAV5lyl_Ga8KboiEg%3A1755118367776&ei=H_ucaP-UL_Of4-EPrsmB8QY&ved=0ahUKEwi_oOa21YiPAxXzzzgGHa5kIG4Q4dUDCBA&uact=5&oq=steve+brunton&gs_lp=Egxnd3Mtd2l6LXNlcnAiDXN0ZXZlIGJydW50b24yBBAjGCcyCxAuGIAEGJECGIoFMgsQABiABBiRAhiKBTIKEAAYgAQYQxiKBTIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEiZC1CRBljLCHABeACQAQCYAaoBoAGvAqoBAzAuMrgBA8gBAPgBAZgCA6ACwgLCAggQABiwAxjvBcICCxAAGIAEGLADGKIEwgIKEC4YgAQYQxiKBZgDAIgGAZAGBZIHAzEuMqAHuROyBwMwLjK4B7sCwgcDMi0zyAcP&sclient=gws-wiz-serp)  – **for sparking the interest, this is from where I started this project. *He has a great interest in Physics Implementation of every engineering field.***
     """
     )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    <wbr>
-    ## **And thanks for being here,**
-    ---
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo, style_dict_3):
-    mo.md(
-        r"""
-
-
-    #### **This was one of my dedicated project I worked upon, for showcasing the real life implementation of what I learnt.**
-
-    #### **This notebook, is a part of bigger project, and you'll see other implementations of better algorithms that we deal today in every engineering field. And, how such orthogonalization techniques are combined with Bidiagonality & QR Decomposition and how these are used in real-life applications.** 
-
-    ### **And, to be notified about those updates, you can 🌟 this repo.**
-
-    """
-    ).style(style_dict_3)
     return
 
 
