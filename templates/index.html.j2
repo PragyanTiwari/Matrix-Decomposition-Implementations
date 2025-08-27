@@ -3,144 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>marimo WebAssembly + GitHub Pages Template</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #fff;
-      padding: 20px;
-      margin: 0;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    header {
-      background-color: #f0f0f0;
-      padding: 20px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .logo {
-      width: 80px;
-      height: auto;
-      margin-bottom: 10px;
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-    .subtitle {
-      font-size: 16px;
-      margin: 0 auto;
-    }
-    .section-title {
-      font-size: 20px;
-      margin: 20px 0 10px;
-      text-align: center;
-    }
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin: 20px 0;
-    }
-    .card {
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      flex: 1 0 200px;
-    }
-    .card-header {
-      background-color: #ddd;
-      padding: 10px;
-      font-weight: bold;
-    }
-    .card-header.app {
-      background-color: #eee;
-    }
-    .card-body {
-      padding: 15px;
-    }
-    .card-link {
-      display: inline-block;
-      background-color: #4a86e8;
-      color: white;
-      padding: 5px 10px;
-      text-decoration: none;
-    }
-    .card-link.app {
-      background-color: #ff9900;
-    }
-    footer {
-      background-color: #f0f0f0;
-      text-align: center;
-      padding: 20px 0;
-      margin-top: 30px;
-    }
-    .footer-links a {
-      color: #4a86e8;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-  </style>
+  <title>Matrix Decompositions</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="font-sans max-w-2xl mx-auto p-8 leading-relaxed">    
-    <header>
-      <div class="container">
-        <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/marimo-logotype-thick.svg" alt="marimo Logo" class="logo">
-        <h1>marimo WebAssembly + GitHub Pages Template</h1>
-        <p class="subtitle">Interactive Python notebooks exported to WebAssembly and deployed to GitHub Pages</p>
+<body class="bg-light">
+  <div class="container py-4">
+    <!-- Header -->
+    <header class="mb-4">
+      <div class="text-center">
+        <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/marimo-logotype-thick.svg" alt="marimo Logo" class="mb-2" style="width: 80px; height: auto;">
+        <h1 class="h3 fw-bold">marimo WebAssembly + GitHub Pages Template</h1>
+        <p class="lead">Interactive Python notebooks exported to WebAssembly and deployed to GitHub Pages</p>
       </div>
     </header>
 
-    <main class="container">
-
-    {% if notebooks %}
-    <h2 class="section-title">Notebooks</h2>
-    <p>Interactive notebooks in edit mode - you can modify and experiment with the code</p>
-    <div class="cards">
-      {% for notebook in notebooks %}
-      <!-- {{ notebook.display_name }} Notebook -->
-      <div class="card">
-        <div class="card-header">{{ notebook.display_name }}</div>
-        <div class="card-body">
-          <a href="{{ notebook.html_path }}" class="card-link">Open Notebook</a>
+    <main>
+      {% if notebooks %}
+      <h2 class="h4 text-center my-4">Notebooks</h2>
+      <p class="text-center">Interactive notebooks in edit mode - you can modify and experiment with the code</p>
+      <div class="row g-4 mb-5">
+        {% for notebook in notebooks %}
+        <!-- {{ notebook.display_name }} Notebook -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-primary text-white fw-semibold">{{ notebook.display_name }}</div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <a href="{{ notebook.html_path }}" class="btn btn-primary mt-auto">Open Notebook</a>
+            </div>
+          </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-    {% endif %}
+      {% endif %}
 
-    {% if apps %}
-    <h2 class="section-title">Apps</h2>
-    <p>Interactive applications in run mode - code is hidden for a clean user interface</p>
-    <div class="cards">
-      {% for app in apps %}
-      <!-- {{ app.display_name }} App -->
-      <div class="card">
-        <div class="card-header app">{{ app.display_name }}</div>
-        <div class="card-body">
-          <a href="{{ app.html_path }}" class="card-link app">Open App</a>
+      {% if apps %}
+      <h2 class="h4 text-center my-4">Apps</h2>
+      <p class="text-center">Interactive applications in run mode - code is hidden for a clean user interface</p>
+      <div class="row g-4 mb-5">
+        {% for app in apps %}
+        <!-- {{ app.display_name }} App -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-warning text-dark fw-semibold">{{ app.display_name }}</div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <a href="{{ app.html_path }}" class="btn btn-warning mt-auto text-white" style="background-color: #ff9900; border-color: #ff9900;">Open App</a>
+            </div>
+          </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </main>
+      {% endif %}
+    </main>
 
-    <footer>
-      <div class="container">
-        <p>Built with <a href="https://marimo.io" target="_blank">marimo</a> - Interactive Python notebooks</p>
-        <div class="footer-links">
-          <a href="https://github.com/marimo-team/marimo" target="_blank">GitHub</a>
-          <a href="https://docs.marimo.io" target="_blank">Documentation</a>
-          <a href="https://discord.gg/JE7nhX6mD8" target="_blank">Discord</a>
-        </div>
-        <p>Licensed under <a href="https://github.com/marimo-team/marimo/blob/main/LICENSE" target="_blank">Apache License 2.0</a></p>
+    <footer class="border-top pt-4 mt-5 text-center small text-muted">
+      <p>Built with <a href="https://marimo.io" target="_blank" class="text-decoration-underline">marimo</a> - Interactive Python notebooks</p>
+      <div class="mb-2">
+        <a href="https://github.com/marimo-team/marimo" target="_blank" class="mx-2 text-primary">GitHub</a>
+        <a href="https://docs.marimo.io" target="_blank" class="mx-2 text-primary">Documentation</a>
+        <a href="https://discord.gg/JE7nhX6mD8" target="_blank" class="mx-2 text-primary">Discord</a>
       </div>
+      <p>Licensed under <a href="https://github.com/marimo-team/marimo/blob/main/LICENSE" target="_blank" class="text-decoration-underline">Apache License 2.0</a></p>
     </footer>
-
+  </div>
+  <!-- Bootstrap JS (optional, for interactivity) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

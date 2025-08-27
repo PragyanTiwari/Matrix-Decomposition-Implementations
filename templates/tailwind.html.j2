@@ -4,29 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>marimo WebAssembly + GitHub Pages Template</title>
-  <!-- Include Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="font-sans text-gray-800 bg-white p-5">    
-  <div class="max-w-4xl mx-auto">
+<body class="bg-white">
+  <div class="container py-4">
     <!-- Header -->
-    <header class="bg-gray-100 p-6 text-center rounded-lg mb-6">
-      <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/marimo-logotype-thick.svg" alt="marimo Logo" class="w-20 h-auto mx-auto mb-3">
-      <h1 class="text-2xl font-bold mb-2">marimo WebAssembly + GitHub Pages Template</h1>
-      <p class="text-sm">Interactive Python notebooks exported to WebAssembly and deployed to GitHub Pages</p>
+    <header class="mb-4">
+      <div class="text-center">
+        <img src="https://raw.githubusercontent.com/marimo-team/marimo/main/docs/_static/marimo-logotype-thick.svg" alt="marimo Logo" class="mb-2" style="width: 80px; height: auto;">
+        <h1 class="h3 fw-bold">marimo WebAssembly + GitHub Pages Template</h1>
+        <p class="lead">Interactive Python notebooks exported to WebAssembly and deployed to GitHub Pages</p>
+      </div>
     </header>
 
     <main>
       {% if notebooks %}
-      <h2 class="text-xl font-bold text-center my-4">Notebooks</h2>
-      <p class="text-center mb-4">Interactive notebooks in edit mode - you can modify and experiment with the code</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+      <h2 class="h4 text-center my-4">Notebooks</h2>
+      <p class="text-center">Interactive notebooks in edit mode - you can modify and experiment with the code</p>
+      <div class="row g-4 mb-5">
         {% for notebook in notebooks %}
         <!-- {{ notebook.display_name }} Notebook -->
-        <div class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
-          <div class="bg-gray-200 p-3 font-semibold">{{ notebook.display_name }}</div>
-          <div class="p-4">
-            <a href="{{ notebook.html_path }}" class="inline-block bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded transition-colors">Open Notebook</a>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-primary text-white fw-semibold">{{ notebook.display_name }}</div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <a href="{{ notebook.html_path }}" class="btn btn-primary mt-auto">Open Notebook</a>
+            </div>
           </div>
         </div>
         {% endfor %}
@@ -34,15 +38,17 @@
       {% endif %}
 
       {% if apps %}
-      <h2 class="text-xl font-bold text-center my-4">Apps</h2>
-      <p class="text-center mb-4">Interactive applications in run mode - code is hidden for a clean user interface</p>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <h2 class="h4 text-center my-4">Apps</h2>
+      <p class="text-center">Interactive applications in run mode - code is hidden for a clean user interface</p>
+      <div class="row g-4 mb-5">
         {% for app in apps %}
         <!-- {{ app.display_name }} App -->
-        <div class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
-          <div class="bg-gray-100 p-3 font-semibold">{{ app.display_name }}</div>
-          <div class="p-4">
-            <a href="{{ app.html_path }}" class="inline-block bg-amber-500 hover:bg-amber-600 text-white py-1 px-3 rounded transition-colors">Open App</a>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-warning text-dark fw-semibold">{{ app.display_name }}</div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <a href="{{ app.html_path }}" class="btn btn-warning mt-auto text-white" style="background-color: #ff9900; border-color: #ff9900;">Open App</a>
+            </div>
           </div>
         </div>
         {% endfor %}
@@ -50,9 +56,11 @@
       {% endif %}
     </main>
 
-    <footer class="mt-10 pt-6 border-t border-gray-200 text-center text-sm text-gray-600">
-      <p class="mb-2">Built with <a href="https://marimo.io" target="_blank" class="text-blue-500 hover:underline">marimo</a> - Interactive Python notebooks</p>
+    <footer class="border-top pt-4 mt-5 text-center small text-muted">
+      <p>Built with <a href="https://marimo.io" target="_blank" class="text-decoration-underline">marimo</a> - Interactive Python notebooks</p>
     </footer>
   </div>
+  <!-- Bootstrap JS (optional, for interactivity) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
