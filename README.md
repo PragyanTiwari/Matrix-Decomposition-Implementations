@@ -1,5 +1,5 @@
-#### **A comprehensive implementation of core **Matrix Decomposition techniques** in Linear Algebra, providing an efficient computation approach, helps in uncovering hidden relationships in data, and lets you power many scalable applications in various fields of science and engineering.**
 
+#### **A comprehensive implementation of various Matrix Decomposition Techniques from the lens of Linear Algebra to produce efficient computing of SVD, PCA, Feature Selection & Data Analysis in Python.**
 ______________________________________________________________________
 
 To gain a deeper understanding of how Orthogonalization & Matrices Decomposition works in real-life applications, & how they save bunch of time through an approach of vectorization, you'll find such techniques used in;
@@ -16,6 +16,8 @@ With certain mathematical intuitions (*having visual introspections*),this proje
 > You'll yet to see more implementations—such as **Householder Reflection**, **Bidiagonalization**, **LU Decomposition**, on this repo, and others—*these will be added soon*.
 
 ## What's Inside
+
+*By latest ✨,*
 
 The **Gram-Schmidt Orthogonalization** is one of the fundamental process in Linear Algebra to achieve *Orthonormal Vectors* for a given vector space. The Orthonormal Basis are produced by iteratively removing vector projections — also known as the *Vector Projection Elimination method*.
 
@@ -56,10 +58,10 @@ def gs_Orthogonalization(X:np.ndarray)->np.ndarray:
     return Q
 ```
 
-To edit the notebook in a sandbox environment, run this;
+To run the notebook in a sandbox environment;
 
 ```bash
-uvx marimo edit --sandbox notebooks\Gram_Schmidt_QR_Decomposition.py
+uvx marimo run --sandbox notebooks/Gram_Schmidt_QR_Decomposition.py
 ```
 
 ## 🧪 Testing
@@ -77,7 +79,7 @@ uv sync
 - To test the export process, we'll run `.github/scripts/build.py` from the root directory through a symlink.
 
 ```bash
-uv run build.py
+uv run .github/scripts/build.py
 ```
 
 This will export all notebooks in a folder called `_site/` in the root directory
