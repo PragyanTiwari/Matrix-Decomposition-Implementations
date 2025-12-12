@@ -177,7 +177,7 @@ def _export(folder: Path, output_dir: Path, as_app: bool=False) -> List[dict]:
 
 def main(
     output_dir: Union[str, Path] = "_site",
-    template: Union[str, Path] = "templates/tailwind.html.j2",
+    template: Union[str, Path] = "templates/index.html.j2",
 ) -> None:
     """Main function to export marimo notebooks.
 
