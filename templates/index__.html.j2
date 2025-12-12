@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Matrix Decomposition — Notebooks and interactive apps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Copied styles from docs/index.html to keep pages consistent */
+    :root{ --color-primary:#2563eb; --color-accent:#f59e0b; --color-text:#111827; --color-bg:#ffffff; --color-border:#e5e7eb; --radius:12px; --container:1100px; }
+    *{box-sizing:border-box} html,body{margin:0;padding:0} body{font-family: "Inter", "Montserrat", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--color-text); background:var(--color-bg);} a{color:inherit;text-decoration:none}
+    .container{max-width:var(--container); margin-inline:auto; padding:24px}
+    .hero{width:100vw; margin-left:calc(-1 * ((100vw - var(--container)) / 2)); padding:32px 24px 12px; background: rgba(37, 99, 235, 0.06); border-radius:16px;}
+    .grid{display:grid; grid-template-columns:1fr; gap:16px}
+    @media (min-width:640px){ .grid{grid-template-columns:repeat(2,1fr); gap:36px;} }
+    .card{border:2px solid #111; border-radius:var(--radius); padding:8px; display:flex; flex-direction:column; gap:8px; background:#fff;}
+    .notebooks-container{display:flex;flex-direction:column;gap:12px}
+    .notebook-item{border:1px solid var(--color-border); padding:12px; border-radius:10px; background:#fff}
+    .btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;font-size:14px;padding:8px 12px;font-weight:600}
+    .btn--ghost{border:1px solid var(--color-border);background:#fff;color:var(--color-text)}
+  </style>
+</head>
+<body>
+  <main id="content" class="container" role="main">
+    <section class="hero" aria-labelledby="hero-title" style="position:relative; overflow:hidden; background:#111; color:#fff; width:100vw; margin-left:calc(-1 * ((100vw - var(--container)) / 2)); border-radius:0;">
+      <h1 id="hero-title" style="color:#fff;">Matrix Decomposition</h1>
+      <p style="color:#fff;">A curated set of notebooks and small apps exploring matrix factorizations.</p>
+    </section>
+
+    <!-- Notebooks section rendered from template context -->
+    <section id="notebooks" class="section" aria-labelledby="notebooks-title">
+      {# Show notebooks only when `notebooks` is provided and contains items inside the `notebooks/` folder #}
+      {% if notebooks %}
+        {% set _shown = false %}
+        {% for notebook in notebooks %}
+          {% if 'notebooks/' in notebook.html_path %}
+            {% if not _shown %}
+              <h2 id="notebooks-title" style="font-weight:600;">Notebooks</h2>
+              <p style="margin-top:6px; margin-bottom:8px; color: #374151;">Interactive notebooks in edit mode — modify and experiment with the code.</p>
+              <div class="notebooks-container">
+              {% set _shown = true %}
+            {% endif %}
+
+            <div class="notebook-item">
+              <h3>{{ notebook.display_name }}</h3>
+              <div style="margin-top:8px">
+                <a class="btn btn--ghost" href="{{ notebook.html_path }}">Open Notebook</a>
+                {# If a source link is present, also show it (keeps parity with existing `Source Code` behavior) #}
+                {% if notebook.source_link %}
+                  <a class="btn" style="margin-left:8px; border:1px solid var(--color-border); background:#fff;" href="{{ notebook.source_link }}">Source Code</a>
+                {% endif %}
+              </div>
+            </div>
+
+          {% endif %}
+        {% endfor %}
+
+        {% if _shown %}
+          </div>
+        {% endif %}
+      {% endif %}
+    </section>
+
+    <!-- Apps placeholder (render apps if provided) -->
+    <section id="apps" class="section" aria-labelledby="apps-title">
+      {% if apps %}
+        <h2 id="apps-title" style="font-weight:600;">Apps</h2>
+        <p style="margin-top:6px; margin-bottom:8px; color: #374151;">Interactive applications in run mode — a clean UI for exploration.</p>
+        <div class="grid">
+          {% for app in apps %}
+            <article class="card">
+              <header><h3><a href="{{ app.app_link or app.source_link }}">{{ app.title or app.display_name }}</a></h3></header>
+              {% if app.description %}<p>{{ app.description }}</p>{% endif %}
+              <div class="actions">
+                {% if app.app_link %}<a class="btn btn--primary" href="{{ app.app_link }}">Open App</a>{% endif %}
+                {% if app.source_link %}<a class="btn btn--ghost" href="{{ app.source_link }}">Source Code</a>{% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+  </main>
+</body>
+</html>

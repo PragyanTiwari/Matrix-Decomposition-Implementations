@@ -3,9 +3,13 @@
     "title": "Gram-Schmidt Process",
     "description": "Compute SVD and explore rank-k approximations and energy capture.",
     "image_url": "/placeholder.svg?height=160&width=320",
-    "tags": ["svd", "rank-k","qr-algo"],
+    "tags": [
+      "svd",
+      "rank-k",
+      "qr-algo"
+    ],
     "app_link": "apps/svd/",
-    "source_link": "notebooks/svd.html",
+    "source_link": "notebooks/gram_schmidt_process.html",
     "date": "2025-08-15",
     "type": "notebook"
   },
@@ -13,20 +17,13 @@
     "title": "QR Decomposition",
     "description": "Orthogonal-triangular factorization via Gram–Schmidt and Householder.",
     "image_url": "/placeholder.svg?height=160&width=320",
-    "tags": ["qr", "householder"],
+    "tags": [
+      "qr",
+      "householder"
+    ],
     "app_link": "apps/qr/",
     "source_link": "notebooks/qr.html",
     "date": "2025-08-12",
-    "type": "notebook"
-  },
-  {
-    "title": "LU Decomposition",
-    "description": "Pivoting strategies, stability, and solving linear systems.",
-    "image_url": "/placeholder.svg?height=160&width=320",
-    "tags": ["lu", "pivoting"],
-    "app_link": "apps/lu/",
-    "source_link": "notebooks/lu.html",
-    "date": "2025-08-10",
     "type": "notebook"
   }
 ]

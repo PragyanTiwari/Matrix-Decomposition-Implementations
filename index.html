@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Preserved site styles from original index.html */
     @font-face {
       font-family: 'Test Sohne';
       src: url('/fonts/TestSohne-Regular.woff2') format('woff2');
@@ -83,7 +82,7 @@
     .accent{color:var(--color-primary); font-weight:600}
     .toolbar{display:flex; gap:12px; flex-wrap:wrap; margin:24px 0}
     .search{flex:1 1 260px; display:flex; align-items:center; gap:0; border:1.5px solid var(--color-border); border-radius:12px; background:#fff; box-shadow:0 2px 8px rgba(37,99,235,0.04); padding:0; transition:box-shadow .2s, border-color .2s; position:relative;}
-    .search:focus-within{border-color:var(--color-primary); box-shadow:0 4px 16px rgba(37,99,235,0.10);}    
+    .search:focus-within{border-color:var(--color-primary); box-shadow:0 4px 16px rgba(37,99,235,0.10);}
     .search__icon{position:absolute; left:14px; top:50%; transform:translateY(-50%); color:#888; pointer-events:none;}
     .search input{border:0; outline:0; width:100%; font-size:15px; padding:12px 14px 12px 38px; background:transparent; border-radius:12px;}
     .filters{display:flex; gap:8px}
@@ -95,8 +94,8 @@
     .grid{display:grid; grid-template-columns:1fr; gap:16px}
   @media (min-width:640px){ .grid{grid-template-columns:repeat(2,1fr); gap:36px;} }
   @media (min-width:1024px){ .grid{grid-template-columns:repeat(2,1fr); gap:48px;} }
-  .card{border:2px solid #111; border-radius:var(--radius); padding:8px; display:flex; flex-direction:column; gap:8px; background:#fff; transition: box-shadow .2s ease, border-color .2s ease; box-shadow: 0 1px 0 rgba(17,24,39,0.04);}    
-  .card:hover{border-color:var(--color-primary); box-shadow: 0 4px 24px rgba(37,99,235,0.10), 0 8px 20px rgba(17,24,39,0.06);}    
+  .card{border:2px solid #111; border-radius:var(--radius); padding:8px; display:flex; flex-direction:column; gap:8px; background:#fff; transition: box-shadow .2s ease, border-color .2s ease; box-shadow: 0 1px 0 rgba(17,24,39,0.04);}
+  .card:hover{border-color:var(--color-primary); box-shadow: 0 4px 24px rgba(37,99,235,0.10), 0 8px 20px rgba(17,24,39,0.06);}
     .card h3,
     .card h3 a{
       font-weight:700;
@@ -116,28 +115,49 @@
     .empty{border:1px dashed var(--color-border); border-radius:var(--radius); padding:20px; text-align:center; opacity:.8}
     footer{border-top:1px solid var(--color-border); padding:24px 0; margin-top:32px; font-size:14px}
   .container{max-width:var(--container); margin-inline:auto; padding:24px; margin-top:56px}
+    /* add shared button styles and actions row */
     .btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;font-size:14px;padding:8px 12px;font-weight:600;line-height:1}
     .btn--primary{background:var(--color-primary);color:#fff}
     .btn--primary:hover{opacity:.95}
     .btn--ghost{border:1px solid var(--color-border);background:#fff;color:var(--color-text)}
     .btn--ghost:hover{opacity:.9}
-    .btn:focus-visible{outline:none; box-shadow: 0 0 0 2px rgba(37,99,235,0.35);}    
+    .btn:focus-visible{outline:none; box-shadow: 0 0 0 2px rgba(37,99,235,0.35);}
     .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
     .icon{display:inline-block;vertical-align:middle}
+    /* GitHub header button style */
     .gh-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--color-border);border-radius:10px;padding:8px 12px;font-weight:600}
     .gh-btn:hover{opacity:.9}
-    .action-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--color-border);border-radius:10px;padding:8px 12px;font-weight:600;background:#fff;color:var(--color-text)}
-    .action-btn:hover{opacity:.9}
-    .action-btn .icon{display:inline-block;vertical-align:middle}
-    .action-btn:focus-visible{outline:none; box-shadow: 0 0 0 2px rgba(37,99,235,0.35);}    
+    /* Card image preview styles */
     .card__media{border:1px solid var(--color-border);border-radius:10px;overflow:hidden;aspect-ratio:16/9;background:#fff}
   .card__media img{width:100%;height:100%;aspect-ratio:16/9;object-fit:cover;display:block; border:2px solid #111; border-radius:10px;}
+  .tag{font-size:12px; padding:4px 8px; border-radius:999px; background: #fff; border:2px solid #111; margin-right:2px;}
+
+    /* latest update banner styles */
     .update{border:1px solid var(--color-border);border-radius:var(--radius);background:#fff;padding:12px 14px;display:flex;align-items:center;gap:12px;margin:8px 0 24px}
     .update__badge{background:var(--color-accent);color:#fff;border-radius:999px;font-size:12px;font-weight:700;padding:4px 8px}
     .update__content p{margin:0}
     .update__title{font-size:14px}
     .update__meta{font-size:12px;opacity:.8;margin-top:2px}
-    .hero-bg {position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 520px; height: 180px; z-index: 0; pointer-events: none; opacity: 0.18;}
+
+    /* header actions buttons (shared style for Docs/GitHub) */
+    .header-actions{display:flex;gap:10px;align-items:center}
+    .action-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--color-border);border-radius:10px;padding:8px 12px;font-weight:600;background:#fff;color:var(--color-text)}
+    .action-btn:hover{opacity:.9}
+    .action-btn .icon{display:inline-block;vertical-align:middle}
+    .action-btn:focus-visible{outline:none; box-shadow: 0 0 0 2px rgba(37,99,235,0.35);}
+
+    /* Hero section background SVG */
+    .hero-bg {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 520px;
+      height: 180px;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.18;
+    }
   </style>
 </head>
 <body>
@@ -159,7 +179,6 @@
     </section>
 
     <section class="toolbar" aria-label="Browse controls">
-      <!-- Search bar removed for migration to search.html -->
     </section>
 
     <section class="sr-only" aria-label="Site identity and actions" style="box-shadow:0 2px 8px rgba(0,0,0,0.10);">
@@ -184,88 +203,99 @@
       </div>
     </section>
 
-    <!-- Notebooks section (rendered server-side) -->
-    {% if notebooks %}
     <section id="notebooks" class="section" aria-labelledby="notebooks-title">
       <h2 id="notebooks-title" style="font-weight:600;">Notebooks</h2>
       <p style="margin-top:6px; margin-bottom:8px; color: #374151;">Interactive notebooks in edit mode — modify and experiment with the code.</p>
-      <div class="grid" id="notebooks-grid">
-        {% for notebook in notebooks %}
-        <article class="card" data-type="notebook">
-          {% if notebook.image_url %}
-          <div class="card__media">
-            <img src="{{ notebook.image_url }}" alt="Preview of {{ notebook.title }}" loading="lazy" />
-          </div>
-          {% endif %}
-          <header><h3><a href="{{ notebook.source_link }}">{{ notebook.title }}</a></h3></header>
-          <p>{{ notebook.description }}</p>
-          <div class="tags">{% for tag in notebook.tags %}<span class="tag">{{ tag }}</span>{% endfor %}</div>
-          <div class="actions" aria-label="Notebook actions">
-            {% if notebook.app_link %}
-            <a class="btn btn--primary" href="{{ notebook.app_link }}">
-              <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4.5v11l11-5.5-11-5.5Z"/></svg>
-              <span>Open App</span>
-            </a>
-            {% endif %}
-            {% if notebook.source_link %}
-            <a class="btn btn--ghost" href="{{ notebook.source_link }}">
-              <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
-              <span>Source Code</span>
-            </a>
-            {% endif %}
-          </div>
-          <div class="card-meta"><span class="badge">Notebook</span><time datetime="{{ notebook.date }}">{{ notebook.date }}</time></div>
-        </article>
-        {% endfor %}
+      <div class="grid" id="notebooks-grid" aria-live="polite">
+        
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="" alt="Preview of Gram Schmidt Process" loading="lazy" />
+            </div>
+            <header><h3><a href="notebooks\gram_schmidt_process.html">Gram Schmidt Process</a></h3></header>
+            <p></p>
+            <div class="tags">
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              
+              <a class="btn btn--ghost" href="notebooks\gram_schmidt_process.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime=""></time></div>
+          </article>
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="" alt="Preview of Gram Schmidt Qr Decomposition" loading="lazy" />
+            </div>
+            <header><h3><a href="notebooks\Gram_Schmidt_QR_Decomposition.html">Gram Schmidt Qr Decomposition</a></h3></header>
+            <p></p>
+            <div class="tags">
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              
+              <a class="btn btn--ghost" href="notebooks\Gram_Schmidt_QR_Decomposition.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime=""></time></div>
+          </article>
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="" alt="Preview of Qr Decomposition" loading="lazy" />
+            </div>
+            <header><h3><a href="notebooks\qr_decomposition.html">Qr Decomposition</a></h3></header>
+            <p></p>
+            <div class="tags">
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              
+              <a class="btn btn--ghost" href="notebooks\qr_decomposition.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime=""></time></div>
+          </article>
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="" alt="Preview of Gram Schmidt Process" loading="lazy" />
+            </div>
+            <header><h3><a href="apps\gram_schmidt_process.html">Gram Schmidt Process</a></h3></header>
+            <p></p>
+            <div class="tags">
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              
+              <a class="btn btn--ghost" href="apps\gram_schmidt_process.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime=""></time></div>
+          </article>
+          
+        
       </div>
     </section>
-    {% else %}
-    <section id="notebooks-empty" class="section">
-      <div class="empty">No notebooks available yet.</div>
-    </section>
-    {% endif %}
-
-    <!-- Apps section (rendered server-side) -->
-    {% if apps %}
-    <section id="apps" class="section" aria-labelledby="apps-title">
-      <h2 id="apps-title" style="font-weight:600;">Apps</h2>
-      <p style="margin-top:6px; margin-bottom:8px; color: #374151;">Interactive applications in run mode — a clean UI for exploration.</p>
-      <div class="grid" id="apps-grid">
-        {% for app in apps %}
-        <article class="card" data-type="app">
-          {% if app.image_url %}
-          <div class="card__media">
-            <img src="{{ app.image_url }}" alt="Preview of {{ app.title }}" loading="lazy" />
-          </div>
-          {% endif %}
-          <header><h3><a href="{{ app.app_link }}">{{ app.title }}</a></h3></header>
-          <p>{{ app.description }}</p>
-          <div class="tags">{% for tag in app.tags %}<span class="tag">{{ tag }}</span>{% endfor %}</div>
-          <div class="actions" aria-label="App actions">
-            {% if app.app_link %}
-            <a class="btn btn--primary" href="{{ app.app_link }}">
-              <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4.5v11l11-5.5-11-5.5Z"/></svg>
-              <span>Open App</span>
-            </a>
-            {% endif %}
-            {% if app.source_link %}
-            <a class="btn btn--ghost" href="{{ app.source_link }}">
-              <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
-              <span>Source Code</span>
-            </a>
-            {% endif %}
-          </div>
-          <div class="card-meta"><span class="badge">App</span><time datetime="{{ app.date }}">{{ app.date }}</time></div>
-        </article>
-        {% endfor %}
-      </div>
-    </section>
-    {% else %}
-    <section id="apps-empty" class="section">
-      <div class="empty">No apps available yet.</div>
-    </section>
-    {% endif %}
-
   </main>
 
   <footer>
@@ -277,5 +307,57 @@
     </div>
   </footer>
 
+  <script>
+        // Load cards from JSON and render them into conditional Notebooks / Apps sections
+        fetch('cards.json')
+          .then(response => response.json())
+          .then(cards => {
+            const notebooks = cards.filter(c => c.type === 'notebook');
+            const apps = cards.filter(c => c.type === 'app');
+
+            const renderCard = (card) => `
+              <article class="card" data-type="${card.type}">
+                <div class="card__media">
+                  <img src="${card.image_url}" alt="Preview of ${card.title}" loading="lazy" />
+                </div>
+                <header><h3><a href="${card.source_link}">${card.title}</a></h3></header>
+                <p>${card.description}</p>
+                <div class="tags">${(card.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+                <div class="actions" aria-label="Notebook actions">
+                  ${card.app_link ? `<a class="btn btn--primary" href="${card.app_link}"><svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4.5v11l11-5.5-11-5.5Z"/></svg><span>Open App</span></a>` : ''}
+                  ${card.source_link ? `<a class="btn btn--ghost" href="${card.source_link}"><svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg><span>Source Code</span></a>` : ''}
+                </div>
+                <div class="card-meta"><span class="badge">${card.type === 'app' ? 'App' : 'Notebook'}</span><time datetime="${card.date}">${card.date}</time></div>
+              </article>
+            `;
+
+            const notebooksGrid = document.getElementById('notebooks-grid');
+            const appsGrid = document.getElementById('apps-grid');
+
+            if (notebooks.length) {
+              notebooksGrid.innerHTML = notebooks.map(renderCard).join('');
+            } else {
+              if (!notebooksGrid.innerHTML.trim()) {
+                 notebooksGrid.innerHTML = `<div class="empty">No notebooks available yet.</div>`;
+              }
+            }
+
+            if (apps.length) {
+              appsGrid.innerHTML = apps.map(renderCard).join('');
+            } else {
+              if (!appsGrid.innerHTML.trim()) {
+                 appsGrid.innerHTML = `<div class="empty">No apps available yet.</div>`;
+              }
+            }
+          })
+          .catch(err => {
+            // Only show error if grid is empty (no Jinja2 content)
+            const grid = document.getElementById('notebooks-grid');
+            if (!grid.innerHTML.trim()) {
+                grid.innerHTML = `<div class="empty">Unable to load content.</div>`;
+            }
+            console.error('Failed to load cards.json', err);
+          });
+      </script>
 </body>
 </html>

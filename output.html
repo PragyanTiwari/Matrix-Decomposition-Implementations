@@ -206,13 +206,85 @@
     <section id="notebooks" class="section" aria-labelledby="notebooks-title">
       <h2 id="notebooks-title" style="font-weight:600;">Notebooks</h2>
       <p style="margin-top:6px; margin-bottom:8px; color: #374151;">Interactive notebooks in edit mode — modify and experiment with the code.</p>
-      <div class="grid" id="notebooks-grid" aria-live="polite"></div>
-    </section>
-
-    <section id="apps" class="section" aria-labelledby="apps-title">
-      <h2 id="apps-title" style="font-weight:600;">Apps</h2>
-      <p style="margin-top:6px; margin-bottom:8px; color: #374151;">Interactive applications in run mode — a clean UI for exploration.</p>
-      <div class="grid" id="apps-grid" aria-live="polite"></div>
+      <div class="grid" id="notebooks-grid" aria-live="polite">
+        
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="/placeholder.svg?height=160&width=320" alt="Preview of Gram-Schmidt Process" loading="lazy" />
+            </div>
+            <header><h3><a href="notebooks/gram_schmidt_process.html">Gram-Schmidt Process</a></h3></header>
+            <p>Compute SVD and explore rank-k approximations and energy capture.</p>
+            <div class="tags">
+              
+              <span class="tag">svd</span>
+              
+              <span class="tag">rank-k</span>
+              
+              <span class="tag">qr-algo</span>
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              <a class="btn btn--primary" href="apps/gram_schmidt_process.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4.5v11l11-5.5-11-5.5Z"/></svg>
+                <span>Open App</span>
+              </a>
+              
+              
+              <a class="btn btn--ghost" href="notebooks/gram_schmidt_process.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime="2025-08-15">2025-08-15</time></div>
+          </article>
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="/placeholder.svg?height=160&width=320" alt="Preview of Gram Schmidt Qr Decomposition" loading="lazy" />
+            </div>
+            <header><h3><a href="notebooks/Gram_Schmidt_QR_Decomposition.html">Gram Schmidt Qr Decomposition</a></h3></header>
+            <p>Interactive notebook for gram schmidt qr decomposition</p>
+            <div class="tags">
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              
+              <a class="btn btn--ghost" href="notebooks/Gram_Schmidt_QR_Decomposition.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime="2025-08-15">2025-08-15</time></div>
+          </article>
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="/placeholder.svg?height=160&width=320" alt="Preview of Qr Decomposition" loading="lazy" />
+            </div>
+            <header><h3><a href="notebooks/qr_decomposition.html">Qr Decomposition</a></h3></header>
+            <p>Interactive notebook for qr decomposition</p>
+            <div class="tags">
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              
+              <a class="btn btn--ghost" href="notebooks/qr_decomposition.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime="2025-08-15">2025-08-15</time></div>
+          </article>
+          
+        
+      </div>
     </section>
   </main>
 
@@ -225,50 +297,6 @@
     </div>
   </footer>
 
-  <script>
-        // Load cards from JSON and render them into conditional Notebooks / Apps sections
-        fetch('cards.json')
-          .then(response => response.json())
-          .then(cards => {
-            const notebooks = cards.filter(c => c.type === 'notebook');
-            const apps = cards.filter(c => c.type === 'app');
 
-            const renderCard = (card) => `
-              <article class="card" data-type="${card.type}">
-                <div class="card__media">
-                  <img src="${card.image_url}" alt="Preview of ${card.title}" loading="lazy" />
-                </div>
-                <header><h3><a href="${card.source_link}">${card.title}</a></h3></header>
-                <p>${card.description}</p>
-                <div class="tags">${(card.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
-                <div class="actions" aria-label="Notebook actions">
-                  ${card.app_link ? `<a class="btn btn--primary" href="${card.app_link}"><svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4.5v11l11-5.5-11-5.5Z"/></svg><span>Open App</span></a>` : ''}
-                  ${card.source_link ? `<a class="btn btn--ghost" href="${card.source_link}"><svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg><span>Source Code</span></a>` : ''}
-                </div>
-                <div class="card-meta"><span class="badge">${card.type === 'app' ? 'App' : 'Notebook'}</span><time datetime="${card.date}">${card.date}</time></div>
-              </article>
-            `;
-
-            const notebooksGrid = document.getElementById('notebooks-grid');
-            const appsGrid = document.getElementById('apps-grid');
-
-            if (notebooks.length) {
-              notebooksGrid.innerHTML = notebooks.map(renderCard).join('');
-            } else {
-              notebooksGrid.innerHTML = `<div class="empty">No notebooks available yet.</div>`;
-            }
-
-            if (apps.length) {
-              appsGrid.innerHTML = apps.map(renderCard).join('');
-            } else {
-              appsGrid.innerHTML = `<div class="empty">No apps available yet.</div>`;
-            }
-          })
-          .catch(err => {
-            const grid = document.getElementById('notebooks-grid');
-            grid.innerHTML = `<div class="empty">Unable to load content.</div>`;
-            console.error('Failed to load cards.json', err);
-          });
-      </script>
 </body>
 </html>

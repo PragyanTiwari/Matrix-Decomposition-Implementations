@@ -121,7 +121,7 @@ def _generate_index(output_dir: Path, template_file: Path, notebooks_data: List[
         rendered_html = template.render(notebooks=notebooks_data, apps=apps_data)
 
         # Write the rendered HTML to the index.html file
-        with open(index_path, "w") as f:
+        with open(index_path, "w", encoding="utf-8") as f:
             f.write(rendered_html)
         logger.info(f"Successfully generated index.html at {index_path}")
 
