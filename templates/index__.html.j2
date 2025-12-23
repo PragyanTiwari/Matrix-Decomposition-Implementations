@@ -47,6 +47,9 @@
               <h3>{{ notebook.display_name }}</h3>
               <div style="margin-top:8px">
                 <a class="btn btn--ghost" href="{{ notebook.html_path }}">Open Notebook</a>
+                {% if notebook.app_link %}
+                  <a class="btn btn--primary" style="margin-left:8px" href="{{ notebook.app_link }}">Open App</a>
+                {% endif %}
                 {# If a source link is present, also show it (keeps parity with existing `Source Code` behavior) #}
                 {% if notebook.source_link %}
                   <a class="btn" style="margin-left:8px; border:1px solid var(--color-border); background:#fff;" href="{{ notebook.source_link }}">Source Code</a>

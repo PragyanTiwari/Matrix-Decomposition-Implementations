@@ -20,6 +20,7 @@ The exported files will be placed in the specified output directory (default: _s
 # ]
 # ///
 
+import json
 import subprocess
 from typing import List, Union
 from pathlib import Path
@@ -167,6 +168,7 @@ def _export(folder: Path, output_dir: Path, as_app: bool=False) -> List[dict]:
         {
             "display_name": (nb.stem.replace("_", " ").title()),
             "html_path": str(nb.with_suffix(".html")),
+            "type": "app" if as_app else "notebook"
         }
         for nb in notebooks
         if _export_html_wasm(nb, output_dir, as_app=as_app)
@@ -207,18 +209,81 @@ def main(
     logger.info(f"Using template file: {template_file}")
 
     # Export notebooks from the notebooks/ directory
-    notebooks_data = _export(Path("notebooks"), output_dir, as_app=False)
+    notebooks_raw = _export(Path("notebooks"), output_dir, as_app=False)
 
     # Export apps from the apps/ directory
-    apps_data = _export(Path("apps"), output_dir, as_app=True)
+    apps_raw = _export(Path("apps"), output_dir, as_app=True)
+
+    # Merge notebooks and apps into a single dataset
+    merged_data = {}
+    
+    # Process notebooks
+    for nb in notebooks_raw:
+        stem = Path(nb["html_path"]).stem
+        merged_data[stem] = {
+            "title": nb["display_name"],
+            "source_link": nb["html_path"],
+            "type": "notebook"
+        }
+    
+    # Process apps and merge with notebooks
+    for app in apps_raw:
+        stem = Path(app["html_path"]).stem
+        if stem in merged_data:
+            merged_data[stem]["app_link"] = app["html_path"]
+        else:
+            merged_data[stem] = {
+                "title": app["display_name"],
+                "app_link": app["html_path"],
+                "type": "app"
+            }
+    
+    final_data = list(merged_data.values())
+
+    # Load metadata from cards.json and merge it in
+    try:
+        cards_json_path = Path("templates/cards.json")
+        if cards_json_path.exists():
+            with open(cards_json_path, "r", encoding="utf-8") as f:
+                cards_metadata = json.load(f)
+                
+                # Create a lookup for metadata by title or link
+                meta_lookup = {}
+                for meta in cards_metadata:
+                    # Try to match by source_link filename
+                    if "source_link" in meta:
+                        m_stem = Path(meta["source_link"]).stem
+                        meta_lookup[m_stem] = meta
+                
+                # Update final_data with values from cards.json
+                for item in final_data:
+                    # We need the stem to look up in meta_lookup
+                    # The link could be notebooks/name.html or apps/name.html
+                    link = item.get("source_link") or item.get("app_link")
+                    if link:
+                        stem = Path(link).stem
+                        if stem in meta_lookup:
+                            m = meta_lookup[stem]
+                            item.update({
+                                "title": m.get("title", item["title"]),
+                                "description": m.get("description", ""),
+                                "tags": m.get("tags", []),
+                                "date": m.get("date", ""),
+                                "image_url": m.get("image_url", ""),
+                                "app_link": m.get("app_link", item.get("app_link")),
+                                "source_link": m.get("source_link", item.get("source_link"))
+                            })
+            logger.info("Successfully merged metadata from cards.json")
+    except Exception as e:
+        logger.error(f"Failed to load or merge cards.json: {e}")
 
     # Exit if no notebooks or apps were found
-    if not notebooks_data and not apps_data:
+    if not final_data:
         logger.warning("No notebooks or apps found!")
         return
 
     # Generate the index.html file that lists all notebooks and apps
-    _generate_index(output_dir=output_dir, notebooks_data=notebooks_data, apps_data=apps_data, template_file=template_file)
+    _generate_index(output_dir=output_dir, notebooks_data=final_data, apps_data=[], template_file=template_file)
 
     logger.info(f"Build completed successfully. Output directory: {output_dir}")
 

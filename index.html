@@ -207,37 +207,51 @@
       <h2 id="notebooks-title" style="font-weight:600;">Notebooks</h2>
       <p style="margin-top:6px; margin-bottom:8px; color: #374151;">Interactive notebooks in edit mode — modify and experiment with the code.</p>
       <div class="grid" id="notebooks-grid" aria-live="polite">
-        {% if notebooks or apps %}
-          {% for item in (notebooks + apps) %}
-          <article class="card" data-type="{{ item.type | default('notebook') }}">
+        
+          
+          <article class="card" data-type="notebook">
             <div class="card__media">
-              <img src="{{ item.image_url | default('') }}" alt="Preview of {{ item.title | default(item.display_name) }}" loading="lazy" />
+              <img src="" alt="Preview of Gram Schmidt Process" loading="lazy" />
             </div>
-            <header><h3><a href="{{ item.source_link | default(item.html_path) }}">{{ item.title | default(item.display_name) }}</a></h3></header>
-            <p>{{ item.description | default('') }}</p>
+            <header><h3><a href="notebooks\gram_schmidt_process.html">Gram Schmidt Process</a></h3></header>
+            <p></p>
             <div class="tags">
-              {% for tag in item.tags | default([]) %}
-              <span class="tag">{{ tag }}</span>
-              {% endfor %}
+              
             </div>
             <div class="actions" aria-label="Notebook actions">
-              {% if item.app_link or (item.type == 'app' and item.html_path) %}
-              <a class="btn btn--primary" href="{{ item.app_link | default(item.html_path) }}">
-                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M4 4.5v11l11-5.5-11-5.5Z"/></svg>
-                <span>Open App</span>
-              </a>
-              {% endif %}
-              {% if item.source_link or item.html_path %}
-              <a class="btn btn--ghost" href="{{ item.source_link | default(item.html_path) }}">
+              
+              
+              <a class="btn btn--ghost" href="notebooks\gram_schmidt_process.html">
                 <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
                 <span>Source Code</span>
               </a>
-              {% endif %}
+              
             </div>
-            <div class="card-meta"><span class="badge">{{ item.type | default('notebook') | title }}</span><time datetime="{{ item.date | default('') }}">{{ item.date | default('') }}</time></div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime=""></time></div>
           </article>
-          {% endfor %}
-        {% endif %}
+          
+          <article class="card" data-type="notebook">
+            <div class="card__media">
+              <img src="" alt="Preview of Gram Schmidt Qr Decomposition" loading="lazy" />
+            </div>
+            <header><h3><a href="notebooks\Gram_Schmidt_QR_Decomposition.html">Gram Schmidt Qr Decomposition</a></h3></header>
+            <p></p>
+            <div class="tags">
+              
+            </div>
+            <div class="actions" aria-label="Notebook actions">
+              
+              
+              <a class="btn btn--ghost" href="notebooks\Gram_Schmidt_QR_Decomposition.html">
+                <svg class="icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M2.5 13.793V17.5h3.707l8.94-8.94-3.707-3.707-8.94 8.94ZM18 5.207l-3.207-3.207-1.793 1.793 3.207 3.207L18 5.207Z"/></svg>
+                <span>Source Code</span>
+              </a>
+              
+            </div>
+            <div class="card-meta"><span class="badge">Notebook</span><time datetime=""></time></div>
+          </article>
+          
+        
       </div>
     </section>
   </main>

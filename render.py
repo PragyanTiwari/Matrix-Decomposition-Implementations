@@ -68,6 +68,8 @@ for filename in notebook_files:
             "description": metadata.get("description", card["description"]),
             "tags": metadata.get("tags", []),
             "date": metadata.get("date", card["date"]),
+            "app_link": metadata.get("app_link", card.get("app_link")),
+            "source_link": metadata.get("source_link", card.get("source_link")),
         })
     
     notebooks.append(card)
@@ -86,6 +88,8 @@ for filename in app_files:
                 "description": metadata.get("description", card["description"]),
                 "tags": metadata.get("tags", []),
                 "date": metadata.get("date", card["date"]),
+                "app_link": metadata.get("app_link", card.get("app_link")),
+                "source_link": metadata.get("source_link", card.get("source_link")),
             })
         
         apps.append(card)
