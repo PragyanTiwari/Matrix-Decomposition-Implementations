@@ -1,0 +1,20 @@
+# Virtual environments
+.venv
+venv
+env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Git
+.git
+.gitignore
+
+# OS / editor junk
+.DS_Store
+.vscode
+.idea
+
+# Node (if any)
+node_modules
