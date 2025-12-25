@@ -1,4 +1,5 @@
-FROM python:3.13-slim-bookworm
+# uv base image
+FROM python:3.11-slim-bookworm
 
 # Install uv for fast dependency management
 COPY --from=ghcr.io/astral-sh/uv:0.8.13 /uv /uvx /bin/
@@ -10,19 +11,20 @@ WORKDIR /app
 COPY pyproject.toml uv.lock ./
 
 # Install dependencies using uv
-RUN uv sync --frozen
+RUN uv sync --frozen --no-dev
 
 # Copy the marimo notebook file
-COPY gram_schmidt_process.py .
+COPY apps/ notebooks/
+
+# env. variable to define notebook to run (will be overriden by render at runtime)
+ENV MARIMO_NOTEBOOK="notebooks/gram_schmidt_process.py" 
 
 # Expose the marimo port
 EXPOSE 2718
 
-# Run the notebook
-CMD ["uv", "run", "marimo", "run", "gram_schmidt_process.py", "--host", "0.0.0.0", "--port", "2718"]
+# Run the notebook through shell command
+CMD ["sh", "-c", "marimo run ${MARIMO_NOTEBOOK:?Set MARIMO_NOTEBOOK} --host 0.0.0.0 --port 2718"]
 
 
 # Advancements:
-# 1. adding env variable to CMD
-# 2. multiple notebooks integration
 # 3. make it well-define
