@@ -23,7 +23,7 @@ ENV MARIMO_NOTEBOOK="notebooks/gram_schmidt_process.py"
 EXPOSE 2718
 
 # Run the notebook through shell command
-CMD ["sh", "-c", "marimo run ${MARIMO_NOTEBOOK:?Set MARIMO_NOTEBOOK} --host 0.0.0.0 --port 2718"]
+CMD ["sh", "-c", "uv run marimo run ${MARIMO_NOTEBOOK:?Set MARIMO_NOTEBOOK} --host 0.0.0.0 --port 2718"]
 
 
 # Advancements:
