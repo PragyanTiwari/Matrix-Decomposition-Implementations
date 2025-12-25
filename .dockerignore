@@ -16,5 +16,5 @@ __pycache__/
 .vscode
 .idea
 
-# Node (if any)
+# Node
 node_modules
