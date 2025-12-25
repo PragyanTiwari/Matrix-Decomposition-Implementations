@@ -1,16 +1,21 @@
 [project]
-name = "matrix-decompositions-implementation-for-svd-pca"
+name = "marimo-matrix-decomposition"
 version = "0.1.0"
-description = "Scratch python implementations of matrix decomposition techniques used in scientific & engineering applications."
+description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "marimo>=0.14.17",
-    "matplotlib>=3.10.5",
-    "numpy>=2.3.2",
+    "marimo>=0.18.4",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.0",
+    "pandas>=2.3.3",
+    "plotly>=6.5.0",
+    "wigglystuff>=0.2.5",
 ]
 
 [dependency-groups]
 dev = [
-    "ruff>=0.12.9",
+    "ruff>=0.14.10",
 ]
+
+# ADD THE DESCRIPTION
