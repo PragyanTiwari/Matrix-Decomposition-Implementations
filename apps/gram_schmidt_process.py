@@ -1,11 +1,12 @@
 import marimo
 
-__generated_with = "0.14.16"
+__generated_with = "0.14.10"
 app = marimo.App(css_file="")
 
 
 @app.cell(hide_code=True)
 def _():
+    import asyncio
     import marimo as mo
     import numpy as np
     import pandas as pd
@@ -48,50 +49,63 @@ def _():
         rows = [" & ".join(map(str, row)) for row in A]
         mat = r"\begin{bmatrix}" + r" \\".join(rows) + r"\end{bmatrix}"
         return r"\[" + mat + r"\]"
-    return Matrix, mo, np, pd, plt, px, style_dict, style_dict_2, to_latex
+    return (
+        Matrix,
+        asyncio,
+        mo,
+        np,
+        pd,
+        plt,
+        px,
+        style_dict,
+        style_dict_2,
+        to_latex,
+    )
 
 
 @app.cell(hide_code=True)
 def _(mo):
     mo.md("""
-    # **Orthonormal Basis Constructions with Gram-Schmidt**
-    ---
+    ## **Creating Orthonormal Vectors using Gram-Schmidt Process**
     """).center()
     return
 
 
 @app.cell
-def _(mo, style_dict):
+def _(mo):
     mo.md(
         r"""
-    #### **Orthonormal basis are the cornerstone of Linear Algebra — a set of vectors which are not only mutually perpendicular (orthogonal) but also of unit length (normalized).** 
+    <br>
+    **A simple Overview,**
+    <br>
+    Orthonormal basis (unit vectors which are linear independent) are one of the cornerstone of Linear Algebra. These basis are mutually perpendicular, helping us in simplifying complex steps in processing large equations & problems that exist today.
 
-    #### **This unique combination makes them exceptionally powerful in simplifying complex problems while dealing with large equations.**
+    **Where it is really used and for what??**
 
-    #### **In the context of Machine Learning, orthonormal bases serve as the backbone for techniques like Singular Value Decomposition (*SVD*), Principal Component Analysis (*PCA*), and various feature engineering methods, which are yet to be shown.**
+    Some cases where you might haven't observed its presence there:
+
+    - Being the first step towards building Principal Component Analysis (PCA)
+    - Used in signal processing for noise reduction.
+    - For solving ordinary least squares.
+    - and a lot more...
+    <br>
+    ###### **Here the steps for it in simple terms:**
     """
-    ).style(style_dict)
+    )
+    return
+
+
+@app.cell
+def _():
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""<br>""")
-    return
-
-
-@app.cell
-def _(mo, style_dict_2):
-    mo.md(
-        r"""
-    **In Gram-Schmidt Orthogonalization, to produce Orthonormal Vectors,**  
-    **We follow this simple approach,**
-
-    1. **take a set of [linearly independent vectors](https://www.wikiwand.com/en/articles/Linear_independence) (*stored in a matrix*)** — think of it like having mix fruits both apples & bananas 🍎🍌.
-    2. **We then find and cut down their projection on each other** — separating apples from bananas, so nothing overlaps.
-    3. **and, normalizing and arranging them so that they become Orthogonal** — now each fruit gets its own clean basket, *representing its own unique dimension*
-    """
-    ).style(style_dict_2)
+    _src = (
+        r"E:\Machine learning\Github Projects\Matrix-Decompositions-Implementation-for-SVD-PCA\apps\public\gs_img.png"
+    )
+    mo.image(src=_src).center()
     return
 
 
@@ -119,9 +133,8 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
+    ## **Its mathematical Intuition,**
     ---
-
-    ## **A mathematical Intuition,**
     """
     )
     return
@@ -224,10 +237,12 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ---
-    ## **Python Implemenation Of Gram-Schmidt**
+    <br>
+    ## **Implementing Gram-Schmidt Orthogonalization in Python**
 
-    looking at the python implementation of gram-schimdt process step wise, and defining a function for it, which then, we'll use it later too.
+    Let's have a look at the python implemenation of gram-schmidt process defined as a function for the given `matrix A`. Follow the steps and build your own gram-schmidt function.
+
+    _You can later modify it as per your need like extending to QR decomposition and so on..._
     """
     )
     return
@@ -556,12 +571,14 @@ def _(A, Q_A, mo, np, plt):
 def _(mo):
     mo.md(
         """
-    ---
-    ## **Try it on your own,**
+    <br>
+    ## **Try it on your own _(Playground)_,**
 
-    Slide the values of Matrix A, experiment with different values and check out their Orthonormal Vectors respectively.
+    Slide the values of `Matrix A`, experiment with different values for it and check out its Orthonormal Vectors respectively.
 
-    The radar plot showing the orientations of **Original Matrix** `(A)` and **Orthonormal Matrix** `(Q)`. The radar plot will form triangle for Q for every linear independent vectors in `A`, otherwise, the shape will be distorted.
+    The radar plot is showing the orientations of **Original Matrix** `(A)` and **Orthonormal Matrix** `(Q)`. It'll take the shape of regular triangle for Q for every linear independent vectors in `A`.
+
+    If the vectors in A are linearly dependent, the shape becomes distorted, indicating a _loss of orthonormality_.
     """
     )
     return
@@ -589,9 +606,11 @@ def _(np, w_mat):
 
 
 @app.cell
-def _(gram_schmidt, mat):
+async def _(asyncio, gram_schmidt, mat, mo):
     # getting the orthonormal matrix using gram-schmidt for mat
-    Q_mat = gram_schmidt(mat)
+    with mo.status.spinner("loading matrix..."):
+        Q_mat = await asyncio.to_thread(gram_schmidt, mat)
+
     return (Q_mat,)
 
 
@@ -645,7 +664,8 @@ def _(np):
 
     def check_linear_independence(X:np.ndarray):
         """
-        checks linear independence of given matrix
+        checks linear independence of given matrix,
+        by comparing no. of cols with rank of matrix.
         """
         rank = np.linalg.matrix_rank(X)
         n_cols = X.shape[1]
@@ -658,6 +678,7 @@ def _(np):
 
 @app.cell
 def _(Matrix, Q_mat, mo):
+    # q matrix as wigglystuff object
     wiggly_Q = mo.ui.anywidget(Matrix(matrix=Q_mat, static=True))
     return (wiggly_Q,)
 
@@ -681,13 +702,21 @@ def _(mo, rd_fig, rd_stack):
     playground = mo.hstack([rd_stack, rd_fig], widths=[1,1.5],
                           align='center', justify='center')
 
-    additional_info = mo.md(r"""The Q matrix **(denoted with blue in radar plot)** will remain fixed **(having unit length)** in radar plot, for all matrix A having linear independent vectors.""").style({'color':'blue', 'text-align':'center', 'font-size':'2rem', 'font-weight':'500'})
+    _info = mo.md(r"""The Q matrix **(denoted with blue in radar plot)** will remain fixed **(having unit length)** in radar plot, for all matrix A having linear independent vectors.""").style({'color':'grey', 'text-align':'center', 'font-size':'2rem', 'font-weight':'500'})
+
+    additional_info = mo.callout(kind='info', value=_info)
     return additional_info, playground
 
 
 @app.cell
 def _(additional_info, mo, playground):
-    mo.vstack([playground, additional_info], gap=0.005)
+    pg = mo.vstack([playground, additional_info])
+    return (pg,)
+
+
+@app.cell
+def _(pg):
+    pg
     return
 
 
@@ -700,7 +729,7 @@ def _(mo):
 
     This notebook covered up the basics of gram-schimdt process and how orthonormal vectors are produced through it. 
 
-    One of its basic application is in **QR Decomposition**, which we'll be exploring in the next notebook, and seeing how the matrix A will be decomposed at fixed two matrices (One will be Orthonormal & other to be Upper-Triangular).
+    One of its basic application is **QR Decomposition**, which we'll be exploring in the next notebook, and seeing how the matrix A will be decomposed at fixed two matrices **(One will be Orthonormal & other to be Upper-Triangular)**.
     """
     )
     return
@@ -708,21 +737,9 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    bt = mo.ui.button("Go to QR Decomposition Notebook").style({"background-color": "#0984e3",
-                        "color": "white",
-                        "padding": "10px 20px",
-                        "border": "none",
-                        "border-radius": "5px",
-                        "font-size": "1rem",
-                        "cursor": "pointer"}).center()
-
-
+    bt = mo.ui.button(label="Click to go to next notebook!",
+                      kind="info")
     bt
-    return
-
-
-@app.cell
-def _():
     return
 
 
