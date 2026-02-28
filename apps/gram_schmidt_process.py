@@ -1,6 +1,14 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "marimo",
+#     "pyzmq",
+# ]
+# ///
+
 import marimo
 
-__generated_with = "0.14.16"
+__generated_with = "0.18.4"
 app = marimo.App(css_file="")
 
 
@@ -76,7 +84,9 @@ def _(mo, style_dict):
 
 @app.cell
 def _(mo):
-    mo.md(r"""<br>""")
+    mo.md(r"""
+    <br>
+    """)
     return
 
 
@@ -117,13 +127,11 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ---
 
     ## **A mathematical Intuition,**
-    """
-    )
+    """)
     return
 
 
@@ -222,27 +230,26 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ---
     ## **Python Implemenation Of Gram-Schmidt**
 
     looking at the python implementation of gram-schimdt process step wise, and defining a function for it, which then, we'll use it later too.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""**1. firstly, defining a vector space, calling it A.**""")
+    mo.md(r"""
+    **1. firstly, defining a vector space, calling it A.**
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ```python {.marimo}
     import numpy as np
     ```
@@ -256,8 +263,7 @@ def _(mo):
     ```python {.marimo}
     print(A)
     ```
-    """
-    )
+    """)
     return
 
 
@@ -277,7 +283,9 @@ def _(A, mo, to_latex):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""**2. Now, let's define a func. `gram_schmidt` utilizing the Gram-Schmidt Process,**""")
+    mo.md(r"""
+    **2. Now, let's define a func. `gram_schmidt` utilizing the Gram-Schmidt Process,**
+    """)
     return
 
 
@@ -322,14 +330,12 @@ def _(np):
                 Q[:,nth_vec] = Q[:,nth_vec] / norm
 
         return Q
-
     return (gram_schmidt,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ```python
     def gram_schmidt(X:np.ndarray)->np.ndarray:
         '''
@@ -351,14 +357,14 @@ def _(mo):
             # iteratively removing each preceding projection from nth vector
             for k_proj in range(nth_vec):
 
-                # the dot product would be the scaler coefficient 
+                # the dot product would be the scaler coefficient
                 scaler = Q[:,nth_vec] @ Q[:,k_proj]
                 projection = scaler * Q[:,k_proj]
                 Q[:,nth_vec] -= projection                 # removing the Kth projection
 
             norm = length(Q[:,nth_vec])
 
-            # handling the case if the loop encounters linearly dependent vectors. 
+            # handling the case if the loop encounters linearly dependent vectors.
             # Since, they come already under the span of vector space, hence their value will be 0.
             if np.isclose(norm,0, rtol=1e-15, atol=1e-14, equal_nan=False):
                 Q[:,nth_vec] = 0
@@ -368,8 +374,7 @@ def _(mo):
 
         return Q
     ```
-    """
-    )
+    """)
     return
 
 
@@ -403,14 +408,12 @@ def _(A, gram_schmidt, np):
 
     # calling the function
     Q_A = gram_schmidt(A)
-
     return Q_A, is_Orthonormal
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ```python {.marimo}
     def is_Orthonormal(Q: np.ndarray)->bool:
         '''
@@ -428,8 +431,7 @@ def _(mo):
     # checking the condition
     is_Orthonormal(Q_A)
     ```
-    """
-    )
+    """)
     return
 
 
@@ -442,19 +444,19 @@ def _(Q_A, is_Orthonormal):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""> The Orthonormal condition satisifies and hence results in TRUE. So, the above justifying the orthogonality of the matrix `Q_A`.""")
+    mo.md(r"""
+    > The Orthonormal condition satisifies and hence results in TRUE. So, the above justifying the orthogonality of the matrix `Q_A`.
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     <wbr>
     **4. You can find the transformation we've made so far in the matrix below,**
     <wbr>
-    """
-    )
+    """)
     return
 
 
@@ -554,16 +556,14 @@ def _(A, Q_A, mo, np, plt):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        """
+    mo.md("""
     ---
     ## **Try it on your own,**
 
     Slide the values of Matrix A, experiment with different values and check out their Orthonormal Vectors respectively.
 
     The radar plot showing the orientations of **Original Matrix** `(A)` and **Orthonormal Matrix** `(Q)`. The radar plot will form triangle for Q for every linear independent vectors in `A`, otherwise, the shape will be distorted.
-    """
-    )
+    """)
     return
 
 
@@ -693,16 +693,14 @@ def _(additional_info, mo, playground):
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ---
     ## **Moving to the next Notebook**
 
-    This notebook covered up the basics of gram-schimdt process and how orthonormal vectors are produced through it. 
+    This notebook covered up the basics of gram-schimdt process and how orthonormal vectors are produced through it.
 
     One of its basic application is in **QR Decomposition**, which we'll be exploring in the next notebook, and seeing how the matrix A will be decomposed at fixed two matrices (One will be Orthonormal & other to be Upper-Triangular).
-    """
-    )
+    """)
     return
 
 
@@ -728,19 +726,17 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ---
     ## **Acknowledgements (Resources I learnt from...)**
 
     This project is undertaken through many resources, the topmost resources I learnt from,
 
-    - [Wikipedia](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) – for providing foundational definitions and mathematical references. 
+    - [Wikipedia](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) – for providing foundational definitions and mathematical references.
     - [DataCamp](https://www.datacamp.com/tutorial/orthogonal-matrix) – for providing informational article upon Orthogonality.
     - [MIT OpenCourseWare](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-17-orthogonal-matrices-and-gram-schmidt/) – for refurbishing the in-depth knowledge of Gram-Schmidt Process, taught by *Prof. Gilbert Strang*.
     - [Steve Brunton (*Amazing Guy*)](https://www.google.com/search?q=steve+brunton&sca_esv=55a910f019e63594&rlz=1C1GCEA_enIN1112IN1112&sxsrf=AE3TifMoAjuMLl0MOCAV5lyl_Ga8KboiEg%3A1755118367776&ei=H_ucaP-UL_Of4-EPrsmB8QY&ved=0ahUKEwi_oOa21YiPAxXzzzgGHa5kIG4Q4dUDCBA&uact=5&oq=steve+brunton&gs_lp=Egxnd3Mtd2l6LXNlcnAiDXN0ZXZlIGJydW50b24yBBAjGCcyCxAuGIAEGJECGIoFMgsQABiABBiRAhiKBTIKEAAYgAQYQxiKBTIFEAAYgAQyBRAAGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQABiABEiZC1CRBljLCHABeACQAQCYAaoBoAGvAqoBAzAuMrgBA8gBAPgBAZgCA6ACwgLCAggQABiwAxjvBcICCxAAGIAEGLADGKIEwgIKEC4YgAQYQxiKBZgDAIgGAZAGBZIHAzEuMqAHuROyBwMwLjK4B7sCwgcDMi0zyAcP&sclient=gws-wiz-serp)  – for sparking the interest, this is from where I started this project. *He has a great interest in Physics Implementation of every engineering field.*
-    """
-    )
+    """)
     return
 
 
