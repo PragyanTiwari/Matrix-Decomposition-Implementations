@@ -10,7 +10,6 @@ dependencies = [
     "numpy>=2.4.0",
     "pandas>=2.3.3",
     "plotly>=6.5.0",
-    "pyzmq>=27.1.0",
     "wigglystuff>=0.2.5",
 ]
 
@@ -19,4 +18,9 @@ dev = [
     "ruff>=0.14.10",
 ]
 
-# ADD THE DESCRIPTION
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+ignore = ["T201"]   # allows print statements
