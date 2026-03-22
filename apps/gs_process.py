@@ -15,7 +15,7 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.20.2"
 app = marimo.App(
     width="medium",
     css_file="/usr/local/_marimo/custom.css",
@@ -135,9 +135,9 @@ def _(mo):
     # sidebar
 
     _heading_links = {
-        "Orthonormal Basis": "#deriving-orthonormal-basis-using-gram-schmidt-process",
+        "Orthonormal Basis": "#orthonormal-basis-with-gram-schmidt",
         "Gram-Schmidt Workflow": "#a-simple-workflow-diagram-of-gram-schmidt-process",
-        "Mathematical Intuition": "#a-mathematical-intuition-of-gram-schmidt",
+        "Mathematical Intuition": "#mathematical-intuition-of-gram-schmidt",
         "Python Implementation": "#implementing-in-python",
         "Playground": "#playground-try-on-your-own",
         "Acknowledgements": "#acknowledgements-resources-i-learnt-from",
@@ -159,9 +159,7 @@ def _(mo):
         _heading_links.get(
             "Python Implementation"
         ): f"{mo.icon('lucide:code-2')} Python Implementation",
-        _heading_links.get(
-            "Playground"
-        ): f"{mo.icon('lucide:flask-conical')} Playground",
+        _heading_links.get("Playground"): f"{mo.icon('lucide:flask-conical')} Playground",
         _heading_links.get(
             "Acknowledgements"
         ): f"{mo.icon('lucide:heart-handshake')} Acknowledgements",
@@ -283,7 +281,7 @@ def _(update_state):
 @app.cell
 def _(mo):
     mo.image(
-        src="public/images/gs-01.png",
+        src=r"public\images\gs-01.png",
         width=900,
         height=400,
         caption="take the example of fruits 🍎 🍌",
@@ -920,9 +918,7 @@ def _(check_linear_independence, mat, mo, w_mat, wiggly_Q):
             mo.md("#### A").center(),
             w_mat.center(),
             mo.md("<wbr>"),
-            mo.md(
-                f"**Linear Independence: {check_linear_independence(mat)}**"
-            ).center(),
+            mo.md(f"**Linear Independence: {check_linear_independence(mat)}**").center(),
             mo.md("<wbr>"),
             mo.md("#### Q").center(),
             wiggly_Q.center(),
@@ -939,9 +935,7 @@ def _(update_state):
 
 @app.cell
 def _(mo, rd_fig, rd_stack):
-    playground = mo.hstack(
-        [rd_stack, rd_fig], widths=[1, 1.5], align="center", justify="center"
-    )
+    playground = mo.hstack([rd_stack, rd_fig], widths=[1, 1.5], align="center", justify="center")
 
     additional_info = mo.md(
         r"""The Q matrix **(denoted with blue in radar plot)** will remain fixed **(having unit length)** in radar plot, for all matrix A having linear independent vectors."""

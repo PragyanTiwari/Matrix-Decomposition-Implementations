@@ -24,3 +24,4 @@ target-version = "py312"
 
 [tool.ruff.lint]
 ignore = ["T201"]   # allows print statements
+# pathlib, numpy and pandas are allowed to go...
