@@ -1,33 +1,100 @@
+<div align="center">
 
-#### **A comprehensive implementation of various Matrix Decomposition Techniques from the lens of Linear Algebra to produce efficient computing of SVD, PCA, Feature Selection & Data Analysis in Python.**
-______________________________________________________________________
+# Matrix Decomposition Implemenations
 
-To gain a deeper understanding of how Orthogonalization & Matrices Decomposition works in real-life applications, & how they save bunch of time through an approach of vectorization, you'll find such techniques used in;
+**A hands-on marimo built, math-first implementations of Matrix Decomposition Functions,**  
+**find the notebooks; hosting on molab & hf-spaces.**
 
-- **📡 Signal Processing**
-- **🤖 Control Systems and Robotics**
-- **🖼️ Image Processing**
-- **➗ Solving Linear Systems i.e. *AX = B***
+<br/>
 
-With certain mathematical intuitions (*having visual introspections*),this project simplifies most of the abstract concepts and becomes easier to grasp and connect with practical applications.
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW/app)
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-4F46E5?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![NumPy](https://img.shields.io/badge/NumPy-2.0%2B-7C3AED?style=flat&logo=numpy&logoColor=white)](https://numpy.org/)
+[![License](https://img.shields.io/badge/License-Apache_2.0-1E293B?style=flat&logo=apache&logoColor=white)](https://opensource.org/licenses/Apache-2.0)
 
-![a snippet of notebook](.assets/matrix_snippet.gif)
+<img src=".assets/01.gif" alt="Matrix Decompositions Demo" width="620"/>
 
-> You'll yet to see more implementations—such as **Householder Reflection**, **Bidiagonalization**, **LU Decomposition**, on this repo, and others—*these will be added soon*.
+</div>
 
-## What's Inside
+## Table of Contents
 
-*By latest ✨,*
+  - [Overview](#overview)
+  - [Marimo Apps](#marimo-apps)
+  - [Quickstart](#quickstart)
+  - [Implementation Notes](#implementation-notes)
+  - [Contributing](#contributing)
+  - [Resources \& Acknowledgements](#resources--acknowledgements)
 
-The **Gram-Schmidt Orthogonalization** is one of the fundamental process in Linear Algebra to achieve *Orthonormal Vectors* for a given vector space. The Orthonormal Basis are produced by iteratively removing vector projections — also known as the *Vector Projection Elimination method*.
 
-**Terms like Orthogonality, QR Decomposition are being discussed in the — [🗨️Discussion section](https://github.com/PragyanTiwari/Matrix-Decompositions-Implementation-for-SVD-PCA/discussions).**
+## Overview
 
-Here's a snippet;
+A curated set of [marimo](https://marimo.io) notebooks based on **Matrix Decomposition** functions, written in Python, each pairing a mathematical derivation with annotated Python including an interactive visualization, inside a single reactive environment.
+
+The series is a progressive build, starting from orthogonalization fundamentals and working toward full matrix factorizations and applications:
+
+`Gram-Schmidt` → `QR` → `LU` → `Householder` → `SVD` → `PCA`
+
+> These functions reduce computationally expensive operations i.e. inversion, least squares, eigensolving, into sequences of simpler, numerically stable factors.
+
+>> Applications such as **noise reduction, signal processing, image compression** and more will be covered as the series progresses.
+
+## Marimo Apps
+
+| Notebook | Open in molab | Open in HF Spaces |
+|---|:---:|:---:|
+| **Gram-Schmidt Orthogonalization** | [![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW/app) | [![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces) |
+| **QR Decomposition** | 🔜 | 🔜 |
+| **Householder Reflection & Bidiagonalization** | 🔜 | 🔜 |
+
+## Quickstart
+
+Requires Python `>= 3.12` and [`uv`](https://docs.astral.sh/uv/).
+
+**1. Clone and install dependencies**
 
 ```bash
-def gs_Orthogonalization(X:np.ndarray)->np.ndarray:
+git clone https://github.com/prgyn8/Matrix-Decomposition-Implementations.git
+uv sync
+```
 
+**2. Run a marimo app**, (eg. gram-schmidt process)
+
+```bash
+uvx marimo run apps/gs_process.py       # you can find the available notebooks in the apps directory.
+```
+
+**3. Optionally, run a notebook in sandbox environment**
+
+```bash
+# Run the app
+uvx marimo run --sandbox apps/gs_process.py
+
+# Or open for editing
+uvx marimo edit --sandbox apps/gs_process.py
+```
+
+---
+
+## Implementation Notes
+
+<details>
+
+<summary><strong>Gram-Schmidt Orthogonalization</strong></summary>
+
+<br/>
+
+```python
+## snippet from the notebook : https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW
+def gram_schmidt(X:np.ndarray)->np.ndarray:
+
+    """
+    original -> orthogonal -> orthonormal
+    args:
+        A set of linearly independent vectors stored in columns in the array X.
+    returns:
+        Returns matrix Q of the shape of X, having orthonormal vectors for the given vectors.
+    """
     Q = np.copy(X).astype("float64")
     n_vecs = Q.shape[1]
 
@@ -58,38 +125,50 @@ def gs_Orthogonalization(X:np.ndarray)->np.ndarray:
     return Q
 ```
 
-To run the notebook in a sandbox environment;
-
-```bash
-uvx marimo run --sandbox notebooks/Gram_Schmidt_QR_Decomposition.py
+```python
+# Verification: Q.T @ Q ≈ I
+A = np.array([[1, 0, 0], [2, 0, 3], [4, 5, 6]]).T
+assert np.allclose(gram_schmidt(A).T @ gram_schmidt(A), np.eye(3))  # ✓
 ```
 
-## 🧪 Testing
+> 💬 Questions on implementation or numerical stability? Start a thread in [Discussions](https://github.com/prgyn8/Matrix-Decomposition-Implementations/discussions).
 
-The updates made on this project, can be tested for deployment, (and for personal experimentation) by the following;
+</details>
 
-- Fork the repository.
+---
 
-- Run uv sync to install dependencies (*uv lockfile will help*)
+## Contributing
 
-```bash
-uv sync
-```
+Contributions are welcome, whether it's a bug report, a new decomposition technique, or a clearer explanation of the math.
 
-- To test the export process, we'll run `.github/scripts/build.py` from the root directory through a symlink.
+1. **Fork** the repository
+2. **Sync** dependencies: `uv sync`
+3. **Create a branch** for your changes
+4. **Open a Pull Request** — maintainers will review it
 
-```bash
-uv run .github/scripts/build.py
-```
+For questions, suggestions, or discussion of the mathematics:
 
-This will export all notebooks in a folder called `_site/` in the root directory
+- 💬 [Discussion Board](https://github.com/prgyn8/Matrix-Decomposition-Implementations/discussions)
+- 🐛 [Open an Issue](https://github.com/prgyn8/Matrix-Decomposition-Implementations/issues)
 
-## 🌱 Contribution Guide
+---
 
-- If you find a bug or have a feature request, please open an [Issue](https://github.com/PragyanTiwari/Matrix-Decompositions-Implementation-for-SVD-PCA/issues).
+## Resources & Acknowledgements
 
-- PR will be reviewed by the maintainers.
+- [**Wikipedia** — Gram-Schmidt Process](https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process) — foundational definitions and mathematical references
+- [**DataCamp** — Orthogonal Matrices](https://www.datacamp.com/tutorial/orthogonal-matrix) — accessible article on orthogonality
+- [**MIT OpenCourseWare** — Lecture 17](https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/resources/lecture-17-orthogonal-matrices-and-gram-schmidt/) — in-depth treatment by *Prof. Gilbert Strang*
+- [**Steve Brunton**](https://www.youtube.com/@Eigensteve) — original spark for this project; exceptional intuition on engineering applications of linear algebra
+- [**Graphical Linear Algebra**](https://graphicallinearalgebra.net/2017/08/09/orthogonality-and-projections/) — visual treatment of orthogonality and projections
 
-- Questions & Suggestions can be queried on the [Discussion section](https://github.com/PragyanTiwari/Matrix-Decompositions-Implementation-for-SVD-PCA/discussions).
+---
 
-______________________________________________________________________
+<div align="center">
+
+<br/>
+
+[⭐ Star this repo](https://github.com/prgyn8/Matrix-Decomposition-Implementations/stargazers) &nbsp;·&nbsp;
+[💬 Join the Discussion](https://github.com/prgyn8/Matrix-Decomposition-Implementations/discussions) &nbsp;·&nbsp;
+[Author →](https://github.com/prgyn8)
+
+</div>
