@@ -7,8 +7,8 @@
 
 <br/>
 
-[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW/app)
-[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces)
+[![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW/app)
+[![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/PragyanTiwari/Gram-Schmidt-Orthonormal-Basis)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-4F46E5?style=flat&logo=python&logoColor=white)](https://www.python.org/)
 [![NumPy](https://img.shields.io/badge/NumPy-2.0%2B-7C3AED?style=flat&logo=numpy&logoColor=white)](https://numpy.org/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-1E293B?style=flat&logo=apache&logoColor=white)](https://opensource.org/licenses/Apache-2.0)
@@ -43,7 +43,7 @@ The series is a progressive build, starting from orthogonalization fundamentals 
 
 | Notebook | Open in molab | Open in HF Spaces |
 |---|:---:|:---:|
-| **Gram-Schmidt Orthogonalization** | [![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW/app) | [![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces) |
+| **Gram-Schmidt Orthogonalization** | [![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW/app) | [![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/PragyanTiwari/Gram-Schmidt-Orthonormal-Basis) |
 | **QR Decomposition** | 🔜 | 🔜 |
 | **Householder Reflection & Bidiagonalization** | 🔜 | 🔜 |
 
