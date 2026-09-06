@@ -44,7 +44,7 @@ The series is a progressive build, starting from orthogonalization fundamentals 
 | Notebook | Open in molab | Open in HF Spaces |
 |---|:---:|:---:|
 | **Gram-Schmidt Orthogonalization** | [![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_TAVLehyiE58b5RDzjxFxSW/app) | [![Open in Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/PragyanTiwari/Gram-Schmidt-Orthonormal-Basis) |
-| **QR Decomposition** | 🔜 | 🔜 |
+| **QR Decomposition** |  [![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_UqB7KaRLi2dar9bLeThKJd) | 🔜 |
 | **Householder Reflection & Bidiagonalization** | 🔜 | 🔜 |
 
 ## Quickstart
